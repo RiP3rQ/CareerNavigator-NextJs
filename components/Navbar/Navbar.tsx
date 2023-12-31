@@ -24,14 +24,14 @@ const Navbar = (props: Props) => {
       <div className="h-full w-fit flex items-center justify-start space-x-2">
         <Link
           href="/offers"
-          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl font-bold"
+          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl "
         >
           Offers
         </Link>
         <Separator orientation="vertical" />
         <Link
           href="/blog"
-          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl  font-bold"
+          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl  "
         >
           Blog
         </Link>
@@ -50,7 +50,7 @@ const Navbar = (props: Props) => {
       <div className="h-full w-fit flex items-center justify-end space-x-4">
         <Button
           variant={"primary"}
-          className="cursor-pointer  font-bold"
+          className="cursor-pointer  "
           onClick={handleAddOffer}
         >
           Add Offer
