@@ -16,6 +16,8 @@ import { useRegisterModal } from "@/hooks/useRegisterModal";
 import { useVerifyModal } from "@/hooks/useVerifyModal";
 import { useEffect, useRef, useState } from "react";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
+import { useSelector } from "react-redux";
+import { useActivationMutation } from "@/redux/features/auth/authApi";
 
 type Props = {};
 
@@ -29,14 +31,24 @@ type VerifyNumber = {
 const VerifyAccountModal = (props: Props) => {
   const verifyModal = useVerifyModal();
   const registerModal = useRegisterModal();
+  const [invalidError, setInvalidError] = useState(false);
 
+  // state for check if last input field is filled
+  const [lastInput, setLastInput] = useState(false);
+
+  // fetch verification token from redux that was created in RegisterModal.tsx
+  const { token } = useSelector((state: any) => state.auth);
+
+  // redux mutation for activating account
+  const [activation, { error, isSuccess }] = useActivationMutation();
+
+  // user wants to go back to register modal
   const handleGoBack = () => {
     verifyModal.onClose();
     registerModal.onOpen();
   };
 
-  const [invalidError, setInvalidError] = useState(false);
-
+  // typed values from user input
   const [verifyNumber, setVerifyNumber] = useState<VerifyNumber>({
     0: "",
     1: "",
@@ -44,6 +56,7 @@ const VerifyAccountModal = (props: Props) => {
     3: "",
   });
 
+  // references to input fields
   const inputRefs = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -51,18 +64,41 @@ const VerifyAccountModal = (props: Props) => {
     useRef<HTMLInputElement>(null),
   ];
 
+  // check if last input field is filled
+  useEffect(() => {
+    if (verifyNumber[3] !== "") {
+      setLastInput(true);
+      console.log("LAST!");
+    } else {
+      console.log("last input is not filled");
+      setLastInput(false);
+    }
+  }, [verifyNumber]);
+
+  // if last input field is filled, call verificationHandler function
+  useEffect(() => {
+    if (lastInput) {
+      console.log("Calling verificationHandler");
+      verificationHandler();
+    }
+  }, [lastInput]);
+
   const verificationHandler = async () => {
+    // join all values from verifyNumber object (etc. 1234)
     const verificationNumber = Object.values(verifyNumber).join("");
-    // if (verificationNumber.length !== 4) {
-    //   setInvalidError(true);
-    //   return;
-    // }
-    if (verificationNumber.length === 4) {
+    if (verificationNumber.length !== 4) {
       setInvalidError(true);
       return;
     }
+
+    // call redux mutation to activate account
+    await activation({
+      activation_token: token,
+      activation_code: verificationNumber,
+    });
   };
 
+  // allow users to dynamically move between input fields
   const handleInputChange = (index: number, value: string) => {
     setInvalidError(false);
     const newVerifyNumber = { ...verifyNumber, [index]: value };
@@ -74,6 +110,23 @@ const VerifyAccountModal = (props: Props) => {
       inputRefs[index + 1].current?.focus();
     }
   };
+
+  // based on redux state do different things
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Account verified successfully");
+      verifyModal.onClose();
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as any;
+        toast.error(errorData.data.message);
+        setInvalidError(true);
+      } else {
+        console.log("An error occured:", error);
+      }
+    }
+  }, [isSuccess, error]);
 
   return (
     <Dialog open={verifyModal.isOpen} onOpenChange={verifyModal.onClose}>

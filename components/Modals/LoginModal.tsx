@@ -1,7 +1,6 @@
 "use client";
 
 import { useLoginModal } from "@/hooks/useLoginModal";
-import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { useRegisterModal } from "@/hooks/useRegisterModal";
 // form validation
@@ -27,6 +25,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z
@@ -64,8 +63,12 @@ const LoginModal = (props: Props) => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    // 1: close modal on success
+    // 2: toast message on success
+    toast.success("Login successful!", {
+      position: "top-center",
+    });
+    // 3: form reset on success
     console.log(values);
   }
 
