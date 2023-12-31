@@ -66,6 +66,22 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    updateSkills: builder.mutation({
+      query: ({ skills }) => ({
+        url: "update-user-additional-info",
+        method: "PUT",
+        body: { skills },
+        credentials: "include" as const,
+      }),
+    }),
+    deleteSkills: builder.mutation({
+      query: ({ skillId }) => ({
+        url: `delete-section-in-profile/${skillId}`,
+        method: "DELETE",
+        body: { section: "skills" },
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -77,4 +93,6 @@ export const {
   useDeleteEducationMutation,
   useUpdateExperienceMutation,
   useDeleteExperienceMutation,
+  useUpdateSkillsMutation,
+  useDeleteSkillsMutation,
 } = userApi;
