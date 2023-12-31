@@ -1,5 +1,8 @@
 "use client";
 
+import LoginModal from "@/components/Modals/LoginModal";
+import RegisterModal from "@/components/Modals/RegisterModal";
+import VerifyAccountModal from "@/components/Modals/VerifyAccountModal";
 import { useEffect, useState } from "react";
 
 export const ModalProvider = () => {
@@ -13,5 +16,11 @@ export const ModalProvider = () => {
     return null;
   }
 
-  return <></>;
+  return (
+    <>
+      <LoginModal />
+      <RegisterModal />
+      <VerifyAccountModal />
+    </>
+  );
 };

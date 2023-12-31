@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Button } from "../ui/button";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { Separator } from "../ui/separator";
-import { BookMarkedIcon, Bookmark } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Bookmark } from "lucide-react";
 import Link from "next/link";
+import UserAvatar from "./UserAvatar";
 
 type Props = {};
 
@@ -14,28 +14,24 @@ const Navbar = (props: Props) => {
     console.log("Add offer clicked");
   };
 
-  const handleAvatarClick = () => {
-    console.log("Avatar clicked");
-  };
-
   const handleBookmarkClick = () => {
     console.log("Bookmark clicked");
   };
 
   return (
-    <div className="h-16 w-full flex items-center justify-between px-4 py-2 bg-slate-800">
+    <div className="h-16 w-full flex items-center justify-between px-4 py-2 bg-slate-800 shadow-xl">
       {/* Left side */}
       <div className="h-full w-fit flex items-center justify-start space-x-2">
         <Link
           href="/offers"
-          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl"
+          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl font-bold"
         >
           Offers
         </Link>
         <Separator orientation="vertical" />
         <Link
           href="/blog"
-          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl"
+          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl  font-bold"
         >
           Blog
         </Link>
@@ -51,21 +47,16 @@ const Navbar = (props: Props) => {
         </Link>
       </div>
       {/* Right side */}
-      <div className="h-full w-fit flex items-center justify-end space-x-2">
+      <div className="h-full w-fit flex items-center justify-end space-x-4">
         <Button
           variant={"primary"}
-          className="cursor-pointer"
+          className="cursor-pointer  font-bold"
           onClick={handleAddOffer}
         >
           Add Offer
         </Button>
         <Separator orientation="vertical" />
-        <Avatar
-          className="h-10 w-10 cursor-pointer"
-          onClick={handleAvatarClick}
-        >
-          <AvatarImage src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" />
-        </Avatar>
+        <UserAvatar />
         <Separator orientation="vertical" />
         <Bookmark
           className="h-10 w-10 text-white"
