@@ -1,4 +1,15 @@
-import React, { ChangeEvent, use, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { CameraIcon } from "lucide-react";
+import avatarDefault from "@/public/default-avatar.png";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  useUpdateAvatarMutation,
+  useUpdateProfileMutation,
+} from "@/redux/features/user/userApi";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
+import { toast } from "sonner";
 // form validation
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,18 +22,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Image from "next/image";
-import { CameraIcon } from "lucide-react";
-import avatarDefault from "@/public/default-avatar.png";
-import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  useUpdateAvatarMutation,
-  useUpdateProfileMutation,
-} from "@/redux/features/user/userApi";
-import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
-import { toast } from "sonner";
 
 const formSchema = z.object({
   firstName: z

@@ -6,6 +6,7 @@ import ProtectedRoute from "@/hooks/useProtectedRoute";
 import { useSelector } from "react-redux";
 import ProfileSidebar from "./__components/ProfileSidebar";
 import ProfileInfoForm from "./__components/ProfileInfoForm";
+import ChangePasswordForm from "./__components/ChangePasswordForm";
 
 type Props = {};
 
@@ -31,8 +32,9 @@ const ProfilePage = (props: Props) => {
                 setActive={setActive}
               />
             </div>
-            <div className="flex-1 flex-shrink-0 h-full">
+            <div className="flex-1 flex-shrink-0 h-full w-full">
               {active === 1 && <ProfileInfoForm user={user} avatar={avatar} />}
+              {active === 2 && <ChangePasswordForm />}
             </div>
           </div>
         </div>
