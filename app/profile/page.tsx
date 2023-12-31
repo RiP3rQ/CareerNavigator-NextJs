@@ -8,6 +8,7 @@ import ProfileSidebar from "./__components/ProfileSidebar";
 import ProfileInfoForm from "./__components/ProfileInfoForm";
 import ChangePasswordForm from "./__components/ChangePasswordForm";
 import EducationForm from "./__components/EducationForm";
+import ExperienceForm from "./__components/ExperienceForm";
 
 type Props = {};
 
@@ -37,6 +38,7 @@ const ProfilePage = (props: Props) => {
               {active === 1 && <ProfileInfoForm user={user} avatar={avatar} />}
               {active === 2 && <ChangePasswordForm />}
               {active === 3 && <EducationForm user={user} />}
+              {active === 4 && <ExperienceForm user={user} />}
             </div>
           </div>
         </div>

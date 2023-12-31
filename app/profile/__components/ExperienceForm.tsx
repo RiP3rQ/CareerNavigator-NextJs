@@ -23,28 +23,28 @@ import {
 import { FaCalendarAlt } from "react-icons/fa";
 import { addDays, format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
-import {
-  useDeleteEducationMutation,
-  useUpdateEducationMutation,
-} from "@/redux/features/user/userApi";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { Separator } from "@/components/ui/separator";
 import { X } from "lucide-react";
+import {
+  useDeleteExperienceMutation,
+  useUpdateExperienceMutation,
+} from "@/redux/features/user/userApi";
 
 const formSchema = z.object({
-  school: z
+  title: z
     .string()
     .min(2, { message: "Must be 2 or more characters long" })
     .max(50, { message: "Must be 50 or fewer characters long" }),
-  degree: z
+  company: z
     .string()
     .min(2, { message: "Must be 2 or more characters long" })
     .max(50, { message: "Must be 50 or fewer characters long" }),
-  fieldOfStudy: z
+  location: z
     .string()
     .min(2, { message: "Must be 2 or more characters long" })
     .max(50, { message: "Must be 50 or fewer characters long" }),
@@ -58,7 +58,7 @@ type Props = {
   user: any;
 };
 
-const EducationForm: React.FC<Props> = ({ user }) => {
+const ExperienceForm: React.FC<Props> = ({ user }) => {
   const [loadUser, setLoadUser] = useState(false);
   // date range for date picker
   const [date, setDate] = useState<DateRange | undefined>({
@@ -66,11 +66,12 @@ const EducationForm: React.FC<Props> = ({ user }) => {
     to: addDays(new Date(2022, 0, 20), 20),
   });
 
-  // redux update education action
-  const [updateEducation, { isSuccess, error }] = useUpdateEducationMutation();
+  // redux update experience action
+  const [updateExperience, { isSuccess, error }] =
+    useUpdateExperienceMutation();
   // redux delete education action
-  const [deleteEducation, { isSuccess: deleteSuccess, error: deleteError }] =
-    useDeleteEducationMutation();
+  const [deleteExperience, { isSuccess: deleteSuccess, error: deleteError }] =
+    useDeleteExperienceMutation();
   // redux get user
   const {} = useLoadUserQuery(undefined, {
     skip: loadUser ? false : true,
@@ -80,24 +81,24 @@ const EducationForm: React.FC<Props> = ({ user }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      school: "",
-      degree: "",
-      fieldOfStudy: "",
+      title: "",
+      company: "",
+      location: "",
       description: "",
     },
   });
 
   // delete education action
-  const handleDeleteEducation = async (id: string) => {
-    await deleteEducation({ educationId: id });
+  const handleDeleteExperience = async (id: string) => {
+    await deleteExperience({ experienceId: id });
   };
 
   // Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const education = {
-      school: values.school,
-      degree: values.degree,
-      fieldOfStudy: values.fieldOfStudy,
+    const experience = {
+      title: values.title,
+      company: values.company,
+      location: values.location,
       description: values.description,
       from: date?.from,
       to: date?.to,
@@ -109,30 +110,30 @@ const EducationForm: React.FC<Props> = ({ user }) => {
     }
 
     if (
-      !education.school ||
-      !education.degree ||
-      !education.fieldOfStudy ||
-      !education.description
+      !experience.title ||
+      !experience.company ||
+      !experience.location ||
+      !experience.description
     ) {
       toast.error("Please fill in all fields");
       return;
     }
 
     // redux action
-    await updateEducation({ education });
+    await updateExperience({ experience });
   }
 
   useEffect(() => {
     if (isSuccess) {
       setLoadUser(true);
-      toast.success("Education updated successfully", {
+      toast.success("Experience updated successfully", {
         position: "top-center",
       });
       form.reset();
     }
     if (deleteSuccess) {
       setLoadUser(true);
-      toast.success("Education deleted successfully", {
+      toast.success("Experience deleted successfully", {
         position: "top-center",
       });
     }
@@ -148,32 +149,32 @@ const EducationForm: React.FC<Props> = ({ user }) => {
   return (
     <div className="w-full h-full bg-slate-800/60 rounded-xl px-6">
       <div className="w-full h-full flex justify-center flex-col items-center">
-        {user.education.length > 0 && (
+        {user.experience.length > 0 && (
           <>
             <div className="w-full flex items-center flex-col justify-center pt-2">
-              <Label className="text-center mb-2 text-xl">My education</Label>
+              <Label className="text-center mb-2 text-xl">My experience</Label>
               <Separator className="w-full" />
-              {user.education.map((education: any, index: any) => (
+              {user.experience.map((experience: any, index: any) => (
                 <div
                   key={index}
                   className="w-full flex items-center justify-center flex-col py-2 relative"
                 >
                   <div className="w-full text-center">
                     <Label className="mb-2 text-xl">
-                      {education.school} - {education.degree} -{" "}
-                      {education.fieldOfStudy}
+                      {experience.title} - {experience.company} -{" "}
+                      {experience.location}
                     </Label>
                   </div>
 
-                  <p className="text-xs">{education.description}</p>
+                  <p className="text-xs">{experience.description}</p>
                   <Label className="text-center mb-2 text-xl">
-                    {formatDate(education.from)} - {formatDate(education.to)}
+                    {formatDate(experience.from)} - {formatDate(experience.to)}
                   </Label>
                   {/* delete button */}
                   <div
                     className="absolute top-2 right-2 cursor-pointer hover:bg-red-500 
                   hover:rounded-full"
-                    onClick={() => handleDeleteEducation(education._id)}
+                    onClick={() => handleDeleteExperience(experience._id)}
                   >
                     <X className="h-4 w-4 text-white" />
                   </div>
@@ -190,13 +191,13 @@ const EducationForm: React.FC<Props> = ({ user }) => {
           >
             <FormField
               control={form.control}
-              name="school"
+              name="title"
               render={({ field }) => (
                 <FormItem className="grid grid-cols-4 items-center justify-center">
-                  <FormLabel className="text-right pr-2">School:</FormLabel>
+                  <FormLabel className="text-right pr-2">Job title:</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter school name..."
+                      placeholder="Enter job title..."
                       {...field}
                       className="col-span-3"
                     />
@@ -207,15 +208,13 @@ const EducationForm: React.FC<Props> = ({ user }) => {
             />
             <FormField
               control={form.control}
-              name="fieldOfStudy"
+              name="company"
               render={({ field }) => (
                 <FormItem className="grid grid-cols-4 items-center justify-center">
-                  <FormLabel className="text-right pr-2">
-                    Field of study:
-                  </FormLabel>
+                  <FormLabel className="text-right pr-2">Company:</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter field of study..."
+                      placeholder="Enter company name..."
                       {...field}
                       className="col-span-3"
                     />
@@ -226,13 +225,13 @@ const EducationForm: React.FC<Props> = ({ user }) => {
             />
             <FormField
               control={form.control}
-              name="degree"
+              name="location"
               render={({ field }) => (
                 <FormItem className="grid grid-cols-4 items-center justify-center">
-                  <FormLabel className="text-right pr-2">Degree:</FormLabel>
+                  <FormLabel className="text-right pr-2">Location:</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter your degree..."
+                      placeholder="Enter company's location..."
                       {...field}
                       className="col-span-3"
                     />
@@ -251,7 +250,7 @@ const EducationForm: React.FC<Props> = ({ user }) => {
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter description..."
+                      placeholder="Enter job description..."
                       {...field}
                       className="col-span-3"
                     />
@@ -261,7 +260,7 @@ const EducationForm: React.FC<Props> = ({ user }) => {
               )}
             />
             <div className="w-full flex items-center justify-center">
-              <Label>Pick a range of dates for your education</Label>
+              <Label>Pick a range of dates for your job experience</Label>
             </div>
             <div className="grid gap-2 items-center justify-center">
               <Popover>
@@ -309,4 +308,4 @@ const EducationForm: React.FC<Props> = ({ user }) => {
   );
 };
 
-export default EducationForm;
+export default ExperienceForm;
