@@ -32,13 +32,7 @@ const ProfilePage = (props: Props) => {
               />
             </div>
             <div className="flex-1 flex-shrink-0 h-full">
-              {active === 1 && (
-                <ProfileInfoForm
-                  user={user}
-                  avatar={avatar}
-                  setActive={setActive}
-                />
-              )}
+              {active === 1 && <ProfileInfoForm user={user} avatar={avatar} />}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, use, useEffect, useState } from "react";
 // form validation
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,9 @@ import avatarDefault from "@/public/default-avatar.png";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useUpdateAvatarMutation } from "@/redux/features/user/userApi";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   firstName: z
@@ -53,10 +56,18 @@ const formSchema = z.object({
 type Props = {
   user: any;
   avatar: string | null;
-  setActive: (active: number) => void;
 };
 
-const ProfileInfoForm: React.FC<Props> = ({ user, avatar, setActive }) => {
+const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
+  const [loadUser, setLoadUser] = useState(false);
+
+  // redux update avatar action
+  const [updateAvatar, { isSuccess, error }] = useUpdateAvatarMutation();
+  // redux get user
+  const {} = useLoadUserQuery(undefined, {
+    skip: loadUser ? false : true,
+  });
+
   // Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,9 +82,38 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar, setActive }) => {
     },
   });
 
-  const handleAvatarClick = () => {
-    setActive(2);
+  const handleAvatarClick = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.currentTarget.files) {
+      console.log("no files");
+      return;
+    }
+
+    const file = e.currentTarget.files[0];
+    const fileReader = new FileReader();
+    // if image loaded successfully then update avatar via redux to database
+
+    fileReader.onload = (e) => {
+      if (fileReader.readyState === 2) {
+        const file = fileReader.result;
+        updateAvatar({
+          avatar: file as string,
+        });
+      }
+    };
+    fileReader.readAsDataURL(file);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setLoadUser(true);
+      toast.success("Avatar updated successfully", {
+        position: "top-center",
+      });
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [isSuccess, error]);
 
   // Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -96,15 +136,15 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar, setActive }) => {
     <>
       <div className="w-full h-full bg-slate-800/60 rounded-xl px-6">
         <div className="w-full h-44 flex justify-center items-center">
-          <div className="relative w-32 h-32" onClick={handleAvatarClick}>
+          <div className="relative w-32 h-32">
             <img
               src={
-                user.avatar || avatar
-                  ? user.avatar || avatar
+                user.avatar.url || avatar
+                  ? user.avatar.url || avatar
                   : avatarDefault.src
               }
               alt="avatar"
-              className="  rounded-full cursor-pointer border-4 border-[#37a39a]"
+              className="w-32 h-32 rounded-full cursor-pointer border-4 border-[#37a39a]"
             />
             <input
               type="file"
@@ -112,6 +152,7 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar, setActive }) => {
               id="avatar"
               name=""
               onChange={handleAvatarClick}
+              accept="image/png,image/jpeg,image/jpg,image/webp"
             />
             <label htmlFor="avatar">
               <div className="w-8 h-8 bg-slate-400 rounded-full absolute bottom-2 right-2 flex items-center justify-center cursor-pointer">

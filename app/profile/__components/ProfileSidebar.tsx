@@ -32,7 +32,11 @@ const ProfileSidebar: React.FC<Props> = ({
         onClick={() => setActive(1)}
       >
         <Image
-          src={user.avatar || avatar ? user.avatar || avatar : avatarDefault}
+          src={
+            user.avatar || avatar ? user.avatar.url || avatar : avatarDefault
+          }
+          width={20}
+          height={20}
           alt="avatar"
           className="w-5 h-5 lg:w-9 lg:h-9 rounded-full cursor-pointer"
         />
@@ -50,8 +54,8 @@ const ProfileSidebar: React.FC<Props> = ({
         onClick={() => setActive(2)}
       >
         <div className="px-3 flex items-center justify-between text-white">
-          <p className="text-base">Update Avatar</p>
-          <ImageIcon className="w-5 h-5" />
+          <p className="text-base">Change password</p>
+          <Lock className="w-5 h-5" />
         </div>
       </div>
       {/* 3 item */}
@@ -61,8 +65,8 @@ const ProfileSidebar: React.FC<Props> = ({
         onClick={() => setActive(3)}
       >
         <div className="px-3 flex items-center justify-between text-white">
-          <p className="text-base">Change password</p>
-          <Lock className="w-5 h-5" />
+          <p className="text-base">Education</p>
+          <BookImage className="w-5 h-5" />
         </div>
       </div>
       {/* 4 item */}
@@ -72,8 +76,8 @@ const ProfileSidebar: React.FC<Props> = ({
         onClick={() => setActive(4)}
       >
         <div className="px-3 flex items-center justify-between text-white">
-          <p className="text-base">Education</p>
-          <BookImage className="w-5 h-5" />
+          <p className="text-base">Experience</p>
+          <Hammer className="w-5 h-5" />
         </div>
       </div>
       {/* 5 item */}
@@ -83,8 +87,8 @@ const ProfileSidebar: React.FC<Props> = ({
         onClick={() => setActive(5)}
       >
         <div className="px-3 flex items-center justify-between text-white">
-          <p className="text-base">Experience</p>
-          <Hammer className="w-5 h-5" />
+          <p className="text-base">Skills</p>
+          <ListChecks className="w-5 h-5" />
         </div>
       </div>
       {/* 6 item */}
@@ -92,17 +96,6 @@ const ProfileSidebar: React.FC<Props> = ({
         className={`w-full px-3 py-4 cursor-pointer 
     ${active === 6 ? "bg-purple-700/75 rounded-xl" : "bg-transparent"}`}
         onClick={() => setActive(6)}
-      >
-        <div className="px-3 flex items-center justify-between text-white">
-          <p className="text-base">Skills</p>
-          <ListChecks className="w-5 h-5" />
-        </div>
-      </div>
-      {/* 7 item */}
-      <div
-        className={`w-full px-3 py-4 cursor-pointer 
-    ${active === 7 ? "bg-purple-700/75 rounded-xl" : "bg-transparent"}`}
-        onClick={() => setActive(7)}
       >
         <div className="px-3 flex items-center justify-between text-white">
           <p className="text-base">CV</p>

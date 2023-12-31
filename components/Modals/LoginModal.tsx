@@ -137,6 +137,7 @@ const LoginModal = (props: Props) => {
                   <FormControl>
                     <Input
                       placeholder="Enter your password..."
+                      type="password"
                       {...field}
                       className="col-span-3"
                     />
