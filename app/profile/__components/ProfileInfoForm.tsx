@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   firstName: z
@@ -236,8 +237,8 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
                   <FormItem className="grid grid-cols-4 items-center justify-center">
                     <FormLabel className="text-right pr-2">Bio:</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter your password..."
+                      <Textarea
+                        placeholder="Enter your bio..."
                         {...field}
                         className="col-span-3"
                       />
