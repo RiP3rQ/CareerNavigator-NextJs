@@ -3,10 +3,18 @@ import { apiSlice } from "../api/apiSlice";
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateProfile: builder.mutation({
-      query: ({ name, email }) => ({
-        url: "update-profile",
-        method: "POST",
-        body: { name, email },
+      query: ({
+        firstName,
+        lastName,
+        email,
+        bio,
+        website,
+        linkedin,
+        github,
+      }) => ({
+        url: "update-me",
+        method: "PUT",
+        body: { firstName, lastName, email, bio, website, linkedin, github },
         credentials: "include" as const,
       }),
     }),
@@ -19,10 +27,10 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     updatePassword: builder.mutation({
-      query: ({ password, password_confirmation }) => ({
+      query: ({ currentPassword, newPassword }) => ({
         url: "update-password",
         method: "POST",
-        body: { password, password_confirmation },
+        body: { currentPassword, newPassword },
         credentials: "include" as const,
       }),
     }),

@@ -17,40 +17,42 @@ import avatarDefault from "@/public/default-avatar.png";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useUpdateAvatarMutation } from "@/redux/features/user/userApi";
+import {
+  useUpdateAvatarMutation,
+  useUpdateProfileMutation,
+} from "@/redux/features/user/userApi";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { toast } from "sonner";
 
 const formSchema = z.object({
   firstName: z
-    .string()
-    .min(2, { message: "Must be 2 or more characters long" })
-    .max(50, { message: "Must be 50 or fewer characters long" }),
+    .union([z.string().length(0), z.string().min(2)])
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
   lastName: z
-    .string()
-    .min(2, { message: "Must be 2 or more characters long" })
-    .max(50, { message: "Must be 50 or fewer characters long" }),
+    .union([z.string().length(0), z.string().min(2)])
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
   email: z
-    .string()
-    .email("Please enter a valid email address.")
-    .min(6, { message: "Must be 6 or more characters long" })
-    .max(50, { message: "Must be 50 or fewer characters long" }),
+    .union([z.string().email().length(0), z.string().min(2)])
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
   bio: z
-    .string()
-    .min(2, { message: "Must be 2 or more characters long" })
-    .max(500, { message: "Must be 500 or fewer characters long" }),
+    .union([z.string().length(0), z.string().min(2).max(500)])
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
   website: z
-    .string()
-    .min(5, { message: "Must be 2 or more characters long" })
-    .max(75, { message: "Must be 75 or fewer characters long" }),
+    .union([z.string().length(0), z.string().min(2).max(50)])
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
   linkedin: z
-    .string()
-    .min(5, { message: "Must be 2 or more characters long" })
-    .max(75, { message: "Must be 75 or fewer characters long" }),
+    .union([z.string().length(0), z.string().min(2).max(50)])
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
   github: z
-    .string()
-    .min(5, { message: "Must be 2 or more characters long" })
-    .max(75, { message: "Must be 75 or fewer characters long" }),
+    .union([z.string().length(0), z.string().min(2).max(50)])
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
 });
 
 type Props = {
@@ -60,6 +62,9 @@ type Props = {
 
 const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
   const [loadUser, setLoadUser] = useState(false);
+  // redux update user info
+  const [updateProfile, { isSuccess: isSuccessUpdate, error: isErrorUpdate }] =
+    useUpdateProfileMutation();
 
   // redux update avatar action
   const [updateAvatar, { isSuccess, error }] = useUpdateAvatarMutation();
@@ -72,13 +77,13 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      bio: "",
-      website: "",
-      linkedin: "",
-      github: "",
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+      email: user.email || "",
+      bio: user.bio || "",
+      website: user.social?.website || "",
+      linkedin: user.social?.linkedin || "",
+      github: user.social?.github || "",
     },
   });
 
@@ -87,14 +92,13 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
       console.log("no files");
       return;
     }
-
     const file = e.currentTarget.files[0];
     const fileReader = new FileReader();
-    // if image loaded successfully then update avatar via redux to database
 
     fileReader.onload = (e) => {
       if (fileReader.readyState === 2) {
         const file = fileReader.result;
+        // if image loaded successfully then update avatar via redux to database
         updateAvatar({
           avatar: file as string,
         });
@@ -110,10 +114,16 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
         position: "top-center",
       });
     }
-    if (error) {
+    if (isSuccessUpdate) {
+      setLoadUser(true);
+      toast.success("Profile updated successfully", {
+        position: "top-center",
+      });
+    }
+    if (error || isErrorUpdate) {
       console.log(error);
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, isSuccessUpdate, isErrorUpdate]);
 
   // Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -122,14 +132,13 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
       lastName: values.lastName,
       email: values.email,
       bio: values.bio,
-      social: {
-        website: values.website,
-        linkedin: values.linkedin,
-        github: values.github,
-      },
+      website: values.website,
+      linkedin: values.linkedin,
+      github: values.github,
     };
+
     // redux update ation
-    // await register(data);
+    await updateProfile(data);
   }
 
   return (
