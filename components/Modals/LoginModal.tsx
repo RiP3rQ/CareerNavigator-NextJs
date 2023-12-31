@@ -13,6 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
 import { useRegisterModal } from "@/hooks/useRegisterModal";
+import { toast } from "sonner";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useEffect } from "react";
 // form validation
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,9 +28,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { toast } from "sonner";
-import { useLoginMutation } from "@/redux/features/auth/authApi";
-import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z

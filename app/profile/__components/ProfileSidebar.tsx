@@ -7,9 +7,7 @@ import {
   Hammer,
   ImageIcon,
   ListChecks,
-  LockIcon,
-  User2Icon,
-  UserIcon,
+  Lock,
 } from "lucide-react";
 
 type Props = {
@@ -63,8 +61,8 @@ const ProfileSidebar: React.FC<Props> = ({
         onClick={() => setActive(3)}
       >
         <div className="px-3 flex items-center justify-between text-white">
-          <p className="text-base">Update profile info</p>
-          <User2Icon className="w-5 h-5" />
+          <p className="text-base">Change password</p>
+          <Lock className="w-5 h-5" />
         </div>
       </div>
       {/* 4 item */}

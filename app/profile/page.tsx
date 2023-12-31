@@ -5,7 +5,7 @@ import MetaDataProvider from "../providers/MetaDataProvider";
 import ProtectedRoute from "@/hooks/useProtectedRoute";
 import { useSelector } from "react-redux";
 import ProfileSidebar from "./__components/ProfileSidebar";
-import ProfileForm from "./__components/ProfileForm";
+import ProfileInfoForm from "./__components/ProfileInfoForm";
 
 type Props = {};
 
@@ -18,12 +18,12 @@ const ProfilePage = (props: Props) => {
     <div>
       <ProtectedRoute>
         <MetaDataProvider
-          title="CareerNavigator"
+          title="Profile Page"
           description="Fullstack Job Searching Site by @RiP3rQ"
         />
-        <div className="max-w-7xl mx-auto h-full mt-2">
-          <div className="grid grid-cols-4">
-            <div className="col-span-1">
+        <div className="max-w-7xl mx-auto mt-2 flex items-center justify-center">
+          <div className="flex items-center justify-center rounded-xl h-5/6">
+            <div className="w-72">
               <ProfileSidebar
                 user={user}
                 active={active}
@@ -31,8 +31,14 @@ const ProfilePage = (props: Props) => {
                 setActive={setActive}
               />
             </div>
-            <div>
-              <ProfileForm />
+            <div className="flex-1 flex-shrink-0 h-full">
+              {active === 1 && (
+                <ProfileInfoForm
+                  user={user}
+                  avatar={avatar}
+                  setActive={setActive}
+                />
+              )}
             </div>
           </div>
         </div>
