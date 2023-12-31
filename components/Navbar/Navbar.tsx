@@ -6,10 +6,17 @@ import { Separator } from "@/components/ui/separator";
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
 import UserAvatar from "./UserAvatar";
+import { useSelector } from "react-redux";
+import UserLoggedInAvatar from "./UserLoggedInAvatar";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
+  // fetch user data from redux
+  const { user } = useSelector((state: any) => state.auth);
+
+  console.log(user);
+
   const handleAddOffer = () => {
     console.log("Add offer clicked");
   };
@@ -56,7 +63,15 @@ const Navbar = (props: Props) => {
           Add Offer
         </Button>
         <Separator orientation="vertical" />
-        <UserAvatar />
+        {/* user profile icon or login/register icon */}
+        {user ? (
+          <>
+            <UserLoggedInAvatar user={user} />
+          </>
+        ) : (
+          <UserAvatar />
+        )}
+
         <Separator orientation="vertical" />
         <Bookmark
           className="h-10 w-10 text-white"
