@@ -26,6 +26,8 @@ import {
   FormMessage,
 } from "../ui/form";
 import { toast } from "sonner";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z
@@ -47,12 +49,16 @@ const LoginModal = (props: Props) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
+  // redirect to register modal
   const handleSignUp = () => {
     loginModal.onClose();
     registerModal.onOpen();
   };
 
-  // 1. Define your form.
+  // redux
+  const [login, { isSuccess, data, isError, error }] = useLoginMutation();
+
+  // Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,15 +67,34 @@ const LoginModal = (props: Props) => {
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // 1: close modal on success
-    // 2: toast message on success
-    toast.success("Login successful!", {
-      position: "top-center",
+  // based on redux state do different things
+  useEffect(() => {
+    if (isSuccess) {
+      // display toast message
+      toast.success("Logged in successfully!", {
+        position: "top-center",
+      });
+      // close Login modal
+      loginModal.onClose();
+      // reset form
+      form.reset();
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorData = error.data as any;
+        toast.error(errorData.message);
+      } else {
+        console.log("Something went wrong!", error);
+      }
+    }
+  }, [isSuccess, isError]);
+
+  // Define a submit handler.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await login({
+      email: values.email,
+      password: values.password,
     });
-    // 3: form reset on success
-    console.log(values);
   }
 
   return (

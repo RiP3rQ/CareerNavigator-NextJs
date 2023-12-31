@@ -121,7 +121,12 @@ const VerifyAccountModal = (props: Props) => {
       if ("data" in error) {
         const errorData = error as any;
         toast.error(errorData.data.message);
+        // set invalid error to true to show animation
         setInvalidError(true);
+        // reset input fields
+        setVerifyNumber({ 0: "", 1: "", 2: "", 3: "" });
+        // focus on first input field
+        inputRefs[0].current?.focus();
       } else {
         console.log("An error occured:", error);
       }
@@ -163,6 +168,7 @@ const VerifyAccountModal = (props: Props) => {
                 maxLength={1}
                 value={verifyNumber[key as keyof VerifyNumber]}
                 onChange={(e) => handleInputChange(index, e.target.value)}
+                autoFocus={index === 0}
               />
             ))}
           </div>
