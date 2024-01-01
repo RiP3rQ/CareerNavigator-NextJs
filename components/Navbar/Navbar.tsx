@@ -28,6 +28,7 @@ const Navbar = (props: Props) => {
 
   console.log(path);
 
+  // TODO: hamburger menu for mobile
   return (
     <div className="h-16 w-full flex items-center justify-between px-4 py-2 bg-black/90 shadow-xl">
       {/* Left side */}
