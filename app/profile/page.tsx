@@ -10,6 +10,7 @@ import ChangePasswordForm from "./__components/ChangePasswordForm";
 import EducationForm from "./__components/EducationForm";
 import ExperienceForm from "./__components/ExperienceForm";
 import SkillsForm from "./__components/SkillsForm";
+import CVUploadForm from "./__components/CVUploadForm";
 
 type Props = {};
 
@@ -41,6 +42,7 @@ const ProfilePage = (props: Props) => {
               {active === 3 && <EducationForm user={user} />}
               {active === 4 && <ExperienceForm user={user} />}
               {active === 5 && <SkillsForm user={user} />}
+              {active === 6 && <CVUploadForm user={user} />}
             </div>
           </div>
         </div>

@@ -82,6 +82,22 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    updateCV: builder.mutation({
+      query: ({ CV }) => ({
+        url: "update-user-additional-info",
+        method: "PUT",
+        body: { CV },
+        credentials: "include" as const,
+      }),
+    }),
+    deleteCV: builder.mutation({
+      query: () => ({
+        url: `delete-section-in-profile/1`, // doesn't matter what we pass here
+        method: "DELETE",
+        body: { section: "CV" },
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -95,4 +111,6 @@ export const {
   useDeleteExperienceMutation,
   useUpdateSkillsMutation,
   useDeleteSkillsMutation,
+  useUpdateCVMutation,
+  useDeleteCVMutation,
 } = userApi;
