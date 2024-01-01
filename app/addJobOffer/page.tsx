@@ -3,6 +3,8 @@ import { useState } from "react";
 import JobOfferSteps from "./__components/JobOfferSteps";
 import JobOfferBasicInfoForm from "./__components/JobOfferBasicInfoForm";
 import JobOfferCompanyForm from "./__components/JobOfferCompanyForm";
+import JobOfferDescriptionForm from "./__components/JobOfferDescriptionForm";
+import JobOfferRequirementsForm from "./__components/JobOfferRequirementsForm";
 
 type Props = {};
 
@@ -23,8 +25,8 @@ const AddJobOfferPage: React.FC<Props> = () => {
     },
     location: "",
     geoLocation: {
-      lat: 0.0,
-      lng: 0.0,
+      lat: 1.0 as number,
+      lng: 1.0 as number,
     },
   });
   const [jobOfferDescription, setJobOfferDescription] = useState({
@@ -54,7 +56,7 @@ const AddJobOfferPage: React.FC<Props> = () => {
             setActive={setActive}
           />
         )}
-        {active === 1 && (
+        {active === 2 && (
           <JobOfferDescriptionForm
             jobOfferDescription={jobOfferDescription}
             setJobOfferDescription={setJobOfferDescription}
@@ -62,9 +64,20 @@ const AddJobOfferPage: React.FC<Props> = () => {
             setActive={setActive}
           />
         )}
+        {active === 3 && (
+          <JobOfferRequirementsForm
+            jobOfferRequirements={jobOfferRequirements}
+            setJobOfferRequirements={setJobOfferRequirements}
+            active={active}
+            setActive={setActive}
+          />
+        )}
+        {/* {active === 4 && (
+          <JobOfferPreview jobOfferData={jobOfferData} active={active} />
+        )} */}
       </div>
-      <div className="w-[25%] mt-[100px] h-screen fixed z-[-1] top-12 right-3">
-        <JobOfferSteps active={active} setActive={() => {}} />
+      <div className="w-[25%] mt-[100px] h-screen fixed z-10 top-12 right-3">
+        <JobOfferSteps active={active} setActive={setActive} />
       </div>
     </div>
   );

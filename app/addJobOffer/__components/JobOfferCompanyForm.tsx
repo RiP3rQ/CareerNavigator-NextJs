@@ -70,8 +70,8 @@ const formSchema = z.object({
     .min(2, { message: "Must be 2 or more characters long" })
     .max(300, { message: "Must be 300 or fewer characters long" }),
   geoLocation: z.object({
-    lat: z.number(),
-    lng: z.number(),
+    lat: z.coerce.number().min(-90).max(90), // SOLUTION: use coerce.number() instead of number()
+    lng: z.coerce.number().min(-180).max(180),
   }),
 });
 
@@ -224,11 +224,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
                   geoLocation.lat:
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Enter geoLocation.lat..."
-                    {...field}
-                    className="col-span-3"
-                  />
+                  <Input type="number" {...field} className="col-span-3" />
                 </FormControl>
                 <FormMessage className="col-span-4 p-0 mt-0 text-center" />
               </FormItem>
@@ -243,11 +239,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
                   geoLocation.lng:
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Enter geoLocation.lng..."
-                    {...field}
-                    className="col-span-3"
-                  />
+                  <Input type="number" {...field} className="col-span-3" />
                 </FormControl>
                 <FormMessage className="col-span-4 p-0 mt-0 text-center" />
               </FormItem>

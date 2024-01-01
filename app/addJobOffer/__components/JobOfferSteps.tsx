@@ -14,12 +14,17 @@ const JobOfferSteps: React.FC<Props> = ({ active, setActive }) => {
     "Company Information",
     "Job Description",
     "Job Requirements",
+    "Job Offer Preview",
   ];
 
   return (
     <div>
       {jobOfferOptions.map((option: any, index: number) => (
-        <div key={index} className="w-full flex py-5">
+        <div
+          key={index}
+          className="w-full flex py-5 cursor-pointer"
+          onClick={() => setActive(index)}
+        >
           <div
             className={`w-9 h-9 rounded-full flex items-center justify-center ${
               active + 1 > index ? "bg-blue-500" : "bg-[#384766]"
