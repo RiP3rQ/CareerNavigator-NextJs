@@ -106,6 +106,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
     setActive(active + 1);
   }
 
+  // TODO: company logo upload and location autocomplete + mapbox
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">
@@ -175,7 +176,6 @@ const JobOfferCompanyForm: React.FC<Props> = ({
               </FormItem>
             )}
           />
-          {/* TODO: ability to upload company logo */}
           <FormField
             control={form.control}
             name="logo.url"

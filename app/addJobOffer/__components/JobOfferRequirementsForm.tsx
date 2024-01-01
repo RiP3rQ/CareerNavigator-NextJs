@@ -92,6 +92,7 @@ const JobOfferRequirementsForm: React.FC<Props> = ({
 
   console.log(skills);
 
+  // TODO: repair error displaying
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       {skills.length > 0 && (
@@ -99,8 +100,11 @@ const JobOfferRequirementsForm: React.FC<Props> = ({
           <Label className="text-xl ">You've added so far:</Label>
           <Separator className="my-1" />
           <div className="flex flex-wrap justify-center">
-            {skills.map((skill) => (
-              <div className="bg-white m-2 p-2 rounded-md text-black relative">
+            {skills.map((skill: any, index: number) => (
+              <div
+                className="bg-white m-2 p-2 rounded-md text-black relative"
+                key={index}
+              >
                 {skill}
                 <div
                   className="absolute -top-3 -right-3 p-1 rounded-full bg-red-500 cursor-pointer"
