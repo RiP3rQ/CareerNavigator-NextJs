@@ -146,7 +146,7 @@ const EducationForm: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <div className="w-full h-full bg-slate-800/60 rounded-xl px-6">
+    <div className="w-full h-fit bg-slate-800/60 rounded-xl px-6">
       <div className="w-full h-full flex justify-center flex-col items-center">
         {user.education.length > 0 && (
           <>

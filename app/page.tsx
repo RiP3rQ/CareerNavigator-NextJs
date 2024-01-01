@@ -7,6 +7,9 @@ export default function Home() {
         title="CareerNavigator"
         description="Fullstack Job Searching Site by @RiP3rQ"
       />
+      <div className="w-full h-screen flex items-center justify-center">
+        <h1 className="text-6xl font-bold text-purple-700">CareerNavigator</h1>
+      </div>
     </div>
   );
 }

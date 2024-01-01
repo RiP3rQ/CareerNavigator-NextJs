@@ -83,7 +83,7 @@ const ChangePasswordForm = (props: Props) => {
 
   return (
     <>
-      <div className="w-full h-full bg-slate-800/60 rounded-xl px-6">
+      <div className="w-full h-fit bg-slate-800/60 rounded-xl px-6 flex items-center justify-center flex-col">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

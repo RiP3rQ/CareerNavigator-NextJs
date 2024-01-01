@@ -40,11 +40,11 @@ const ProfileSidebar: React.FC<Props> = ({
           alt="avatar"
           className="w-5 h-5 lg:w-9 lg:h-9 rounded-full cursor-pointer"
         />
-        <div className="pl-3 flex items-start justify-start flex-col text-white">
+        <div className="pl-3 flex items-start justify-start flex-col text-white w-full line-clamp-1">
           <p className="text-base">
             {user.firstName} {user.lastName}
           </p>
-          <p className="text-sm">{user.email}</p>
+          <p className="text-sm ">{user.email}</p>
         </div>
       </div>
       {/* 2 item */}

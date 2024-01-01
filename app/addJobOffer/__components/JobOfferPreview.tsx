@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useCreateJobOfferMutation } from "@/redux/features/jobOffer/jobOfferApi";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
 
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
+  const router = useRouter();
   const [createJobOFfer, { isLoading, isSuccess, error }] =
     useCreateJobOfferMutation();
 
@@ -18,8 +20,7 @@ const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
   useEffect(() => {
     if (isSuccess) {
       notificationId = toast.success("Job offer created successfully");
-      // TODO: redirect to job offer page
-      // TODO: clear data from state
+      router.push("/createdJobOffers");
     }
     if (error) {
       if ("data" in error) {

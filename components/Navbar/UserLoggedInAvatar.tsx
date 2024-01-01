@@ -1,24 +1,16 @@
 "use client";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { use, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
-  PopoverClose,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import {
-  LogOutIcon,
-  MoreHorizontal,
-  Settings2Icon,
-  Trash2,
-  User2Icon,
-  X,
-} from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { LogOutIcon, Settings2Icon, User2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useLogOutQuery } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
 
@@ -70,6 +62,7 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
           className="px-2 pt-3 pb-3 mt-2 outline-none"
           side="bottom"
           align="start"
+          onOpenAutoFocus={(e) => e.preventDefault()}
         >
           <div className="text-sm font-medium text-neutral-600 mb-1 pl-4">
             {user?.email}

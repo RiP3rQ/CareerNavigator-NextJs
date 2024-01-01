@@ -74,7 +74,7 @@ const CVUploadForm: React.FC<Props> = ({ user }) => {
   }, [isSuccess, error, deleteSuccess, deleteError]);
 
   return (
-    <div className="w-full h-full bg-slate-800/60 rounded-xl p-6">
+    <div className="w-full h-fit bg-slate-800/60 rounded-xl p-6">
       <div className="w-full h-full flex justify-center flex-col items-center">
         {user.CV && (
           <>

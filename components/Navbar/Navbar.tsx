@@ -8,11 +8,12 @@ import Link from "next/link";
 import UserAvatar from "./UserAvatar";
 import { useSelector } from "react-redux";
 import UserLoggedInAvatar from "./UserLoggedInAvatar";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
+  const path = usePathname();
   // fetch user data from redux
   const { user } = useSelector((state: any) => state.auth);
   const router = useRouter();
@@ -25,32 +26,34 @@ const Navbar = (props: Props) => {
     console.log("Bookmark clicked");
   };
 
+  console.log(path);
+
   return (
-    <div className="h-16 w-full flex items-center justify-between px-4 py-2 bg-slate-800 shadow-xl">
+    <div className="h-16 w-full flex items-center justify-between px-4 py-2 bg-black/90 shadow-xl">
       {/* Left side */}
-      <div className="h-full w-fit flex items-center justify-start space-x-2">
+      <div className="h-full flex items-center justify-start space-x-2 ">
+        {/* LOGO */}
+        <div className="flex items-start justify-start flex-col text-white">
+          <p className="text-xl">Career</p>
+          <p className="text-sm">Navigator</p>
+        </div>
+        <Separator orientation="vertical" />
         <Link
-          href="/offers"
-          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl "
+          href="/"
+          className={`text-slate-300 text-lg cursor-pointer pl-6 pr-1 hover:text-slate-500 ${
+            path === "/" ? "text-white" : "text-slate-300"
+          }`}
         >
           Offers
         </Link>
-        <Separator orientation="vertical" />
+        <Separator orientation="vertical" className="h-[60%]" />
         <Link
           href="/blog"
-          className="text-white text-2xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl  "
+          className={` text-lg cursor-pointer px-1  hover:text-slate-500 ${
+            path === "/blog" ? "text-white" : "text-slate-300"
+          }`}
         >
           Blog
-        </Link>
-      </div>
-      {/* Center - Logo*/}
-      <div className="h-full w-fit flex items-center justify-center cursor-pointer">
-        <Link href="/">
-          <img
-            src="/logo.png"
-            alt="logo"
-            className="object-contain h-16 w-fit p-2"
-          />
         </Link>
       </div>
       {/* Right side */}

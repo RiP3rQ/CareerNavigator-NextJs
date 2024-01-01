@@ -54,11 +54,12 @@ const AddJobOfferPage: React.FC<Props> = () => {
     jobOfferRequirements,
   ]);
 
+  // TODO: Change form labels and placeholders
   return (
     <div className="w-full flex min-h-screen">
       <ProtectedRoute>
         <MetaDataProvider
-          title="Profile Page"
+          title="Add Job Offer"
           description="Fullstack Job Searching Site by @RiP3rQ"
         />
         <div className="w-[75%]">

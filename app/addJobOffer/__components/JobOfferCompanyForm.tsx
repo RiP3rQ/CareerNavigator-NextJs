@@ -166,7 +166,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
     setActive(active + 1);
   }
 
-  // TODO: company logo upload and location autocomplete + mapbox, delete description from this form
+  // TODO:  location autocomplete + mapbox, delete description from this form
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">

@@ -20,31 +20,27 @@ const ProfilePage = (props: Props) => {
   const [active, setActive] = useState(1);
 
   return (
-    <div>
+    <div className="w-full flex min-h-[90vh] px-20 ">
       <ProtectedRoute>
         <MetaDataProvider
           title="Profile Page"
           description="Fullstack Job Searching Site by @RiP3rQ"
         />
-        <div className="max-w-7xl mx-auto mt-2 flex items-center justify-center">
-          <div className="flex items-center justify-center rounded-xl h-5/6">
-            <div className="w-72">
-              <ProfileSidebar
-                user={user}
-                active={active}
-                avatar={avatar}
-                setActive={setActive}
-              />
-            </div>
-            <div className="flex-1 flex-shrink-0 h-full w-full">
-              {active === 1 && <ProfileInfoForm user={user} avatar={avatar} />}
-              {active === 2 && <ChangePasswordForm />}
-              {active === 3 && <EducationForm user={user} />}
-              {active === 4 && <ExperienceForm user={user} />}
-              {active === 5 && <SkillsForm user={user} />}
-              {active === 6 && <CVUploadForm user={user} />}
-            </div>
-          </div>
+        <div className="w-[25%] my-auto">
+          <ProfileSidebar
+            user={user}
+            active={active}
+            avatar={avatar}
+            setActive={setActive}
+          />
+        </div>
+        <div className="w-[75%] my-auto">
+          {active === 1 && <ProfileInfoForm user={user} avatar={avatar} />}
+          {active === 2 && <ChangePasswordForm />}
+          {active === 3 && <EducationForm user={user} />}
+          {active === 4 && <ExperienceForm user={user} />}
+          {active === 5 && <SkillsForm user={user} />}
+          {active === 6 && <CVUploadForm user={user} />}
         </div>
       </ProtectedRoute>
     </div>
