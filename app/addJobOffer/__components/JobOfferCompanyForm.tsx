@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { useState } from "react";
+import { X } from "lucide-react";
 
 type Props = {
   jobOfferCompanyInfo: {
@@ -62,9 +64,6 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Must be 2 or more characters long" })
     .max(50, { message: "Must be 50 or fewer characters long" }),
-  logo: z.object({
-    url: z.string(),
-  }),
   location: z
     .string()
     .min(2, { message: "Must be 2 or more characters long" })
@@ -81,6 +80,8 @@ const JobOfferCompanyForm: React.FC<Props> = ({
   active,
   setActive,
 }) => {
+  // drag n' drop state
+  const [dragging, setDragging] = useState(false);
   // Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -88,9 +89,6 @@ const JobOfferCompanyForm: React.FC<Props> = ({
       name: jobOfferCompanyInfo.name || "",
       description: jobOfferCompanyInfo.description || "",
       website: jobOfferCompanyInfo.website || "",
-      logo: {
-        url: jobOfferCompanyInfo.logo.url || "",
-      },
       location: jobOfferCompanyInfo.location || "",
       geoLocation: {
         lat: jobOfferCompanyInfo.geoLocation.lat || 0.0,
@@ -99,14 +97,76 @@ const JobOfferCompanyForm: React.FC<Props> = ({
     },
   });
 
+  // handle company logo
+  const handleFileChange = (e: any) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        if (reader.readyState === 2) {
+          setJobOfferCompanyInfo({
+            ...jobOfferCompanyInfo,
+            logo: {
+              url: reader.result as any,
+            },
+          });
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // handle Drag n' Drop
+  const handleDragOver = (e: any) => {
+    e.preventDefault();
+    setDragging(true);
+  };
+
+  const handleDragLeave = (e: any) => {
+    e.preventDefault();
+    setDragging(false);
+  };
+
+  const handleDrop = (e: any) => {
+    e.preventDefault();
+    setDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        setJobOfferCompanyInfo({
+          ...jobOfferCompanyInfo,
+          logo: {
+            url: reader.result as any,
+          },
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   // Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     toast.success("Company info saved");
-    setJobOfferCompanyInfo(values);
+    setJobOfferCompanyInfo({
+      ...jobOfferCompanyInfo,
+      name: values.name,
+      description: values.description,
+      website: values.website,
+      location: values.location,
+      geoLocation: {
+        lat: values.geoLocation.lat,
+        lng: values.geoLocation.lng,
+      },
+    });
     setActive(active + 1);
   }
 
-  // TODO: company logo upload and location autocomplete + mapbox
+  // TODO: company logo upload and location autocomplete + mapbox, delete description from this form
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">
@@ -176,25 +236,57 @@ const JobOfferCompanyForm: React.FC<Props> = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="logo.url"
-            render={({ field }) => (
-              <FormItem className="grid grid-cols-4 items-center justify-center">
-                <FormLabel className="text-right pr-2 text-white">
-                  logo:
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter logo..."
-                    {...field}
-                    className="col-span-3"
-                  />
-                </FormControl>
-                <FormMessage className="col-span-4 p-0 mt-0 text-center" />
-              </FormItem>
+          <div className="grid grid-cols-4 items-center justify-center relative">
+            {jobOfferCompanyInfo.logo.url && (
+              <div
+                className="absolute -top-2 -right-2 p-1 bg-red-400 cursor-pointer 
+            rounded-full hover:bg-red-800/70 z-50"
+                onClick={() =>
+                  setJobOfferCompanyInfo({
+                    ...jobOfferCompanyInfo,
+                    logo: {
+                      url: "",
+                    },
+                  })
+                }
+              >
+                <X size={20} className="text-white" />
+              </div>
             )}
-          />
+            <p className=" text-right pr-2 text-white">logo:</p>
+            <Input
+              type="file"
+              accept="image/*"
+              id="file"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <Label
+              htmlFor="file"
+              className={`col-span-3 min-h-[20vh] border-[#00000026] p-3 border flex
+            items-center justify-center ${
+              dragging ? "bg-blue-500" : "bg-transparent"
+            } `}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              {jobOfferCompanyInfo.logo.url ? (
+                <>
+                  <img
+                    src={jobOfferCompanyInfo.logo.url}
+                    alt="Company's logo"
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </>
+              ) : (
+                <span className="text-black">
+                  Drag 'n' drop your company's logo here, or click to select
+                  file
+                </span>
+              )}
+            </Label>
+          </div>
           <FormField
             control={form.control}
             name="location"

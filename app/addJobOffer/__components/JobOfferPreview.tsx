@@ -23,6 +23,7 @@ const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
     }
     if (error) {
       if ("data" in error) {
+        console.log(error);
         const errorMsg = error as any;
         notificationId = toast.error(errorMsg.data.message);
       }
