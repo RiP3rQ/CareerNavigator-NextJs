@@ -8,17 +8,17 @@ import Link from "next/link";
 import UserAvatar from "./UserAvatar";
 import { useSelector } from "react-redux";
 import UserLoggedInAvatar from "./UserLoggedInAvatar";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
   // fetch user data from redux
   const { user } = useSelector((state: any) => state.auth);
-
-  console.log(user);
+  const router = useRouter();
 
   const handleAddOffer = () => {
-    console.log("Add offer clicked");
+    router.push("/addJobOffer");
   };
 
   const handleBookmarkClick = () => {
@@ -74,7 +74,7 @@ const Navbar = (props: Props) => {
 
         <Separator orientation="vertical" />
         <Bookmark
-          className="h-10 w-10 text-white"
+          className="h-10 w-10 text-white cursor-pointer"
           onClick={handleBookmarkClick}
         />
       </div>
