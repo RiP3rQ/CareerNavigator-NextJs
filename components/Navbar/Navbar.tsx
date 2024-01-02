@@ -26,9 +26,12 @@ const Navbar = (props: Props) => {
     console.log("Bookmark clicked");
   };
 
-  console.log(path);
+  const handleAddPost = () => {
+    router.push("/blog/createPost");
+  };
 
   // TODO: hamburger menu for mobile
+  // TODO: Social Auth buttons + functionality (Google, LinkedIn)
   return (
     <div className="h-16 w-full flex items-center justify-between px-4 py-2 bg-black/90 shadow-xl">
       {/* Left side */}
@@ -59,13 +62,24 @@ const Navbar = (props: Props) => {
       </div>
       {/* Right side */}
       <div className="h-full w-fit flex items-center justify-end space-x-4">
-        <Button
-          variant={"primary"}
-          className="cursor-pointer  "
-          onClick={handleAddOffer}
-        >
-          Add Offer
-        </Button>
+        {path === "/" ? (
+          <Button
+            variant={"primary"}
+            className="cursor-pointer  "
+            onClick={handleAddOffer}
+          >
+            Add Offer
+          </Button>
+        ) : (
+          <Button
+            variant={"primary"}
+            className="cursor-pointer  "
+            onClick={handleAddPost}
+          >
+            Add Post
+          </Button>
+        )}
+
         <Separator orientation="vertical" />
         {/* user profile icon or login/register icon */}
         {user ? (

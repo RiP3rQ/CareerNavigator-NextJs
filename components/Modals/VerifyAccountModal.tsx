@@ -68,9 +68,7 @@ const VerifyAccountModal = (props: Props) => {
   useEffect(() => {
     if (verifyNumber[3] !== "") {
       setLastInput(true);
-      console.log("LAST!");
     } else {
-      console.log("last input is not filled");
       setLastInput(false);
     }
   }, [verifyNumber]);

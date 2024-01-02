@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -8,6 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { toast } from "sonner";
+import { useCreatePostMutation } from "@/redux/features/post/postApi";
+import { useSelector } from "react-redux";
+import { redirect } from "next/navigation";
 
 type Props = {};
 
@@ -18,6 +21,12 @@ const CreatePostPage = (props: Props) => {
   const [preview, setPreview] = useState<string>();
   const [tagInput, setTagInput] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]); // ["tag1", "tag2"]
+
+  // redux create post action
+  const [createPost, { isSuccess, error }] = useCreatePostMutation();
+
+  // get user data from redux
+  const { user } = useSelector((state: any) => state.auth);
 
   // tag handlers
   const handleAddTag = () => {
@@ -81,6 +90,37 @@ const CreatePostPage = (props: Props) => {
     }
   };
 
+  // check state of the redux action
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("CV added successfully", {
+        position: "top-center",
+      });
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [isSuccess, error]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      // display toast
+      toast.success("Post created successfully", {
+        position: "top-center",
+      });
+      // reset state
+      setPreview(undefined);
+      setTags([]);
+      setTitle("");
+      setDescription("");
+      // redirect to blog page
+      redirect("/blog");
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [isSuccess, error]);
+
   // Create post
   const handleCreatePost = () => {
     if (!preview) {
@@ -106,13 +146,21 @@ const CreatePostPage = (props: Props) => {
       return;
     }
 
-    // create post
-    toast.success("Post created successfully");
-    // reset state
-    setPreview(undefined);
-    setTags([]);
-    setTitle("");
-    setDescription("");
+    const username = `${user.firstName}_${user.lastName}`;
+
+    const data = {
+      title,
+      description,
+      tags,
+      postImage: {
+        public_id: "postImage_public_url",
+        url: preview,
+      },
+      username: username,
+      userId: user._id,
+    };
+
+    createPost({ data });
   };
 
   return (
