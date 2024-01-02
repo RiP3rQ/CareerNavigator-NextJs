@@ -10,8 +10,15 @@ export const postApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getAllPosts: builder.mutation({
+      query: ({ data }) => ({
+        url: "get-all-posts",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreatePostMutation } = postApi;
+export const { useCreatePostMutation, useGetAllPostsMutation } = postApi;
