@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { useCreatePostMutation } from "@/redux/features/post/postApi";
 import { useSelector } from "react-redux";
 import { redirect } from "next/navigation";
+import ProtectedRoute from "@/hooks/useProtectedRoute";
+import MetaDataProvider from "@/app/providers/MetaDataProvider";
 
 type Props = {};
 
@@ -165,115 +167,121 @@ const CreatePostPage = (props: Props) => {
 
   return (
     <div className="px-6 md:px-[200px] mt-8">
-      <h1 className="font-bold md:text-2xl text-xl mt-8">Create a post</h1>
-      <div className="w-full flex flex-col space-y-4 mt-4">
-        <Input
-          type="text"
-          placeholder="Enter title"
-          className="px-4 py-2 outline-none"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+      <ProtectedRoute>
+        <MetaDataProvider
+          title="Create post"
+          description="Fullstack Job Searching Site by @RiP3rQ"
         />
-        {/* IMAGE */}
-        <div className="w-full relative">
-          {/* delete preview button */}
-          {preview && (
-            <>
-              <div
-                className="absolute -top-3 -right-3 p-1 bg-red-400 cursor-pointer 
-            rounded-full hover:bg-red-800/70 z-50"
-                onClick={setPreview.bind(null, undefined)}
-              >
-                <X size={20} className="text-white" />
-              </div>
-            </>
-          )}
+        <h1 className="font-bold md:text-2xl text-xl mt-8">Create a post</h1>
+        <div className="w-full flex flex-col space-y-4 mt-4">
           <Input
-            type="file"
-            accept="image/*"
-            id="file"
-            onChange={handleFileChange}
-            className="hidden"
-            ref={filePicekerRef}
+            type="text"
+            placeholder="Enter title"
+            className="px-4 py-2 outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
-          <Label
-            htmlFor="file"
-            className={`w-full min-h-[20vh] border-[#00000026] p-3 border flex
+          {/* IMAGE */}
+          <div className="w-full relative">
+            {/* delete preview button */}
+            {preview && (
+              <>
+                <div
+                  className="absolute -top-3 -right-3 p-1 bg-red-400 cursor-pointer 
+            rounded-full hover:bg-red-800/70 z-50"
+                  onClick={setPreview.bind(null, undefined)}
+                >
+                  <X size={20} className="text-white" />
+                </div>
+              </>
+            )}
+            <Input
+              type="file"
+              accept="image/*"
+              id="file"
+              onChange={handleFileChange}
+              className="hidden"
+              ref={filePicekerRef}
+            />
+            <Label
+              htmlFor="file"
+              className={`w-full min-h-[20vh] border-[#00000026] p-3 border flex
             items-center justify-center ${
               dragging ? "bg-blue-500" : "bg-transparent"
             } `}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          >
-            {preview ? (
-              <>
-                <img
-                  src={preview}
-                  alt="Company's logo"
-                  className="max-h-full max-w-full object-contain"
-                />
-              </>
-            ) : (
-              <span className="text-black">
-                Drag 'n' drop your image here, or click to select file
-              </span>
-            )}
-          </Label>
-        </div>
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              {preview ? (
+                <>
+                  <img
+                    src={preview}
+                    alt="Company's logo"
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </>
+              ) : (
+                <span className="text-black">
+                  Drag 'n' drop your image here, or click to select file
+                </span>
+              )}
+            </Label>
+          </div>
 
-        {/* DESCRIPTION */}
-        <Label className="text-md">Post description:</Label>
-        <Textarea
-          className="px-4 py-2 w-full outline-none"
-          placeholder="Enter post description..."
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        {/* Tags */}
-        <div className="flex items-center space-x-4 md:space-x-8">
-          <Input
-            type="test"
+          {/* DESCRIPTION */}
+          <Label className="text-md">Post description:</Label>
+          <Textarea
             className="px-4 py-2 w-full outline-none"
-            placeholder="Enter tag..."
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleAddTag();
-              }
-            }}
+            placeholder="Enter post description..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
-          <Button className="px-4 py-2" onClick={handleAddTag}>
-            Add tag
+          {/* Tags */}
+          <div className="flex items-center space-x-4 md:space-x-8">
+            <Input
+              type="test"
+              className="px-4 py-2 w-full outline-none"
+              placeholder="Enter tag..."
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleAddTag();
+                }
+              }}
+            />
+            <Button className="px-4 py-2" onClick={handleAddTag}>
+              Add tag
+            </Button>
+          </div>
+          {/* Display tags */}
+          <div className="flex space-x-4 flex-wrap space-y-2">
+            {/* items */}
+            {tags.map((tag: string, index: number) => (
+              <Badge
+                key={index}
+                className="bg-gray-300 rounded-lg px-6 py-2 text-gray-700 text-xl cursor-pointer hover:bg-gray-400 relative"
+              >
+                {tag}
+                <div
+                  className="absolute -top-2 -right-2 bg-red-500 rounded-full hover:bg-red-400"
+                  onClick={() => handleDeleteTag(index)}
+                >
+                  <X className="h-4 w-4 text-white" />
+                </div>
+              </Badge>
+            ))}
+          </div>
+          {/* Submit */}
+          <Button
+            className="bg-black text-white px-4 py-2"
+            onClick={handleCreatePost}
+          >
+            Create post
           </Button>
         </div>
-        {/* Display tags */}
-        <div className="flex space-x-4 flex-wrap space-y-2">
-          {/* items */}
-          {tags.map((tag: string, index: number) => (
-            <Badge
-              key={index}
-              className="bg-gray-300 rounded-lg px-6 py-2 text-gray-700 text-xl cursor-pointer hover:bg-gray-400 relative"
-            >
-              {tag}
-              <div
-                className="absolute -top-2 -right-2 bg-red-500 rounded-full hover:bg-red-400"
-                onClick={() => handleDeleteTag(index)}
-              >
-                <X className="h-4 w-4 text-white" />
-              </div>
-            </Badge>
-          ))}
-        </div>
-        {/* Submit */}
-        <Button
-          className="bg-black text-white px-4 py-2"
-          onClick={handleCreatePost}
-        >
-          Create post
-        </Button>
-      </div>
+      </ProtectedRoute>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import ConfirmModal from "@/components/Modals/ConfirmModal";
 import LoginModal from "@/components/Modals/LoginModal";
 import RegisterModal from "@/components/Modals/RegisterModal";
 import VerifyAccountModal from "@/components/Modals/VerifyAccountModal";
@@ -21,6 +22,7 @@ export const ModalProvider = () => {
       <LoginModal />
       <RegisterModal />
       <VerifyAccountModal />
+      <ConfirmModal />
     </>
   );
 };

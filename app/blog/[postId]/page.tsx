@@ -1,85 +1,123 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useGetPostByIdMutation } from "@/redux/features/post/postApi";
 import { Edit, Trash } from "lucide-react";
-import React from "react";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
 const BlogPostDetailPage = (props: Props) => {
+  const [post, setPost] = useState<any>({}); // {}
+  const [postDate, setPostDate] = useState<string>(""); // "2021-06-14"
+  const [postTime, setPostTime] = useState<string>(""); // "16:45"
+  const [loading, setLoading] = useState<boolean>(true);
+  // get postId from url
+  const postId = useParams().postId;
+  // redux action to get all posts
+  const [getPostById, { isSuccess, error }] = useGetPostByIdMutation();
+  // get user data from redux
+  const { user } = useSelector((state: any) => state.auth);
+
+  // fetch post on page load
+  useEffect(() => {
+    getPostById({ postId }).then((res: any) => {
+      setPost(res.data?.post);
+    });
+  }, []);
+
+  // do action base on success or error
+  useEffect(() => {
+    if (isSuccess) {
+      setLoading(false);
+      setPostDate(new Date(post?.createdAt).toLocaleString().slice(0, 10));
+      setPostTime(new Date(post?.createdAt).toLocaleString().slice(11, 16));
+    }
+    if (error) {
+      console.log("Error fetching post");
+    }
+  }, [isSuccess, error]);
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-2xl font-bold text-black">Loading...</p>
+      </div>
+    );
+
+  const handleEditClick = () => {
+    console.log("edit");
+  };
+
+  const handleDeleteClick = () => {
+    console.log("delete");
+  };
+
+  // TODO: Confirm action modal
+  // TODO: Edit comment functionality
+  // TODO: Delete comment functionality
+  // TODO: Fetch comments functionality
+  // TODO: Add comment functionality
+
   return (
     <div className="px-8 md:max-w-7xl mx-auto mt-8">
       {/* Title, edit, delete */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-black md:text-3xl">
-          Lorem ipsum dolor sit amet consectetur adipisicing eli
+          {post.title}
         </h1>
-        <div className="flex items-center justify-center space-x-2">
-          <p>
-            <Edit />
-          </p>
-          <p>
-            <Trash />
-          </p>
-        </div>
+        {user._id === post.userId && (
+          <div className="flex items-center justify-center space-x-2">
+            <p
+              className="text-blue-500 cursor-pointer hover:text-blue-400"
+              onClick={handleEditClick}
+            >
+              <Edit />
+            </p>
+            <p
+              className="text-red-500 cursor-pointer hover:text-red-400"
+              onClick={handleDeleteClick}
+            >
+              <Trash />
+            </p>
+          </div>
+        )}
       </div>
       {/* @, date */}
       <div className="flex items-center justify-between mt-2 md:mt-4">
-        <p>@RiP3rQ</p>
+        <p>@{post.username}</p>
         <div className="flex space-x-2">
-          <p>16/06/2023</p>
-          <p>16:45</p>
+          <p>{postDate}</p>
+          <p>{postTime}</p>
         </div>
       </div>
       {/* Image */}
-      <img
-        src="https://www.cined.com/content/uploads/2023/03/Midjourney_v5_out_now-feature_image_2.jpg"
-        alt=""
-        className=""
-      />
-      <p className="mx-auto mt-8">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea facilis
-        accusamus id, nobis voluptatibus eligendi laborum repellat adipisci quo
-        assumenda fuga ipsum sequi vel ducimus ab, aliquam atque, culpa impedit?
-      </p>
+      <div className="w-full flex items-center justify-center">
+        <img src={post.postImage.url} alt="" className="" />
+      </div>
+      <p className="mx-auto mt-8">{post.description}</p>
       <div className="flex items-center flex-wrap mt-8 space-x-4 font-semibold">
         <p className="w-full text-start my-1">Tags:</p>
 
         <div className="w-full space-x-2 space-y-2">
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            Test
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            React
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            JavaScript
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            Test
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            React
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            Test
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            React
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            JavaScript
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            Test
-          </Badge>
-          <Badge className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400">
-            React
-          </Badge>
+          {post.tags?.map((tag: string, index: number) => (
+            <Badge
+              key={index}
+              className="bg-gray-300 rounded-lg pr-3 text-gray-700 text-xl cursor-pointer hover:bg-gray-400"
+            >
+              {tag}
+            </Badge>
+          ))}
         </div>
       </div>
       <div className="flex flex-col my-4 ">
         <h3 className="mt-6 mb-4 font-semibold">Comments:</h3>
+        {/* TODO: Redux feting comments */}
+        {/* TODO: Adding comments */}
         {/* Single Comment */}
         <div className="px-2 py-2 bg-gray-200 rounded-lg">
           <div className="flex items-center justify-between">

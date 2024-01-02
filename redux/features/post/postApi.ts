@@ -17,8 +17,18 @@ export const postApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getPostById: builder.mutation({
+      query: ({ postId }) => ({
+        url: `get-post-by-id/${postId}`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreatePostMutation, useGetAllPostsMutation } = postApi;
+export const {
+  useCreatePostMutation,
+  useGetAllPostsMutation,
+  useGetPostByIdMutation,
+} = postApi;
