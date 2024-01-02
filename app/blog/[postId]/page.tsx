@@ -179,7 +179,13 @@ const BlogPostDetailPage = (props: Props) => {
       <div className="flex flex-col space-y-2">
         <h3 className="mt-6 mb-4 font-semibold ">Comments:</h3>
         {comments?.map((comment: any, index: number) => (
-          <PostComment key={index} comment={comment} />
+          <PostComment
+            key={index}
+            comment={comment}
+            user={user}
+            refetchComments={refetchComments}
+            postId={postId}
+          />
         ))}
       </div>
       {/* Write own comment */}

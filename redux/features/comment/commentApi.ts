@@ -10,6 +10,14 @@ export const commentApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    editComment: builder.mutation({
+      query: ({ commentId, data }) => ({
+        url: `edit-comment/${commentId}`,
+        method: "PUT",
+        body: data,
+        credentials: "include" as const,
+      }),
+    }),
     getAllPostComments: builder.mutation({
       query: ({ postId }) => ({
         url: `get-post-comments/${postId}`,
@@ -20,5 +28,8 @@ export const commentApi = apiSlice.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useAddCommentMutation, useGetAllPostCommentsMutation } =
-  commentApi;
+export const {
+  useAddCommentMutation,
+  useEditCommentMutation,
+  useGetAllPostCommentsMutation,
+} = commentApi;
