@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 
 type Props = {
   jobOfferDescription: {
@@ -57,32 +58,25 @@ const JobOfferDescriptionForm: React.FC<Props> = ({
     setActive(active + 1);
   }
 
-  // TODO: Change to textarea
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">
-        <Label className="text-2xl font-bold ">Your company info</Label>
+        <Label className="text-2xl font-bold ">Jobs description</Label>
       </div>
 
       <Separator className="my-4" />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-4 py-4"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full py-4">
           <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
               <FormItem className="flex items-center justify-center">
-                <FormLabel className="w-full text-center text-white">
-                  Job description:
-                </FormLabel>
                 <FormControl className="w-full">
-                  <Input
-                    placeholder="Enter description..."
+                  <Textarea
                     {...field}
-                    className="col-span-3"
+                    placeholder="etc. A Full Stack Developer is responsible for designing, implementing, and maintaining software applications across both the front-end and back-end. This role involves proficiency in various programming languages, frameworks, and databases to ensure seamless integration and functionality. "
+                    rows={10}
                   />
                 </FormControl>
                 <FormMessage className="w-full p-0 mt-0 text-center" />
@@ -90,8 +84,8 @@ const JobOfferDescriptionForm: React.FC<Props> = ({
             )}
           />
 
-          <Button type="submit" className="bg-blue-500">
-            Save
+          <Button type="submit" className="bg-blue-500 w-full mt-4">
+            Next step
           </Button>
         </form>
       </Form>

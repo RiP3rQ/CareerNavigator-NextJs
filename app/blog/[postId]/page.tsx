@@ -58,6 +58,7 @@ const BlogPostDetailPage = (props: Props) => {
 
   // refetch comments after adding new comment
   const refetchComments = () => {
+    setComments([]);
     getAllPostComments({ postId }).then((res: any) => {
       setComments(res.data?.comments);
     });

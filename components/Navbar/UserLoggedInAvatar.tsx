@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { LogOutIcon, Settings2Icon, User2Icon } from "lucide-react";
+import { AppWindow, Bell, LogOutIcon, User2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLogOutQuery } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
@@ -30,6 +30,12 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
 
   const handleOpenMyProfile = () => {
     router.push("/profile");
+    // close the dropdown
+    dropDownTrigger.current?.click();
+  };
+
+  const handleOpenMyBlogPosts = () => {
+    router.push("/blog/myPosts");
     // close the dropdown
     dropDownTrigger.current?.click();
   };
@@ -78,10 +84,20 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
               <User2Icon className="h-4 w-4" />
             </div>
           </Button>
-          <Button variant="ghost" className="w-full">
+          <Button
+            variant="ghost"
+            className="w-full"
+            onClick={handleOpenMyBlogPosts}
+          >
             <div className="flex items-center justify-between w-full">
-              <div>Settings</div>
-              <Settings2Icon className="h-4 w-4" />
+              <div>My blog posts</div>
+              <AppWindow className="h-4 w-4" />
+            </div>
+          </Button>
+          <Button variant="ghost" className="w-full" onClick={() => {}}>
+            <div className="flex items-center justify-between w-full">
+              <div>Alerts</div>
+              <Bell className="h-4 w-4" />
             </div>
           </Button>
           <Separator className="mb-1" />

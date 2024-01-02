@@ -1,5 +1,9 @@
 import { Input } from "@/components/ui/input";
-import { useEditCommentMutation } from "@/redux/features/comment/commentApi";
+import { useConfirmModal } from "@/hooks/useConfirmModal";
+import {
+  useDeleteCommentMutation,
+  useEditCommentMutation,
+} from "@/redux/features/comment/commentApi";
 import { Check, Edit, Trash, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -20,8 +24,12 @@ const PostComment: React.FC<Props> = ({
   const [editing, setEditing] = useState<boolean>(false);
   const [commentValue, setCommentValue] = useState<string>(comment.comment);
   const [disabled, setDisabled] = useState<boolean>(false);
-
+  // confirm modal
+  const confirmModal = useConfirmModal();
+  // redux action to edit comment
   const [editComment, { isSuccess }] = useEditCommentMutation();
+  const [deleteComment, { isSuccess: isSuccessDelete }] =
+    useDeleteCommentMutation();
 
   let notificationId: any;
 
@@ -50,6 +58,29 @@ const PostComment: React.FC<Props> = ({
       refetchComments();
     }
   }, [isSuccess]);
+
+  const handleDelete = () => {
+    confirmModal.data = {
+      title: "Delete post",
+      description: "Are you sure you want to delete this post?",
+    };
+    confirmModal.action = () => {
+      deleteComment({ commentId: comment._id });
+      toast.loading("Deleting post is process...", {
+        id: notificationId,
+      });
+    };
+    confirmModal.onOpen();
+  };
+
+  useEffect(() => {
+    if (isSuccessDelete) {
+      toast.success("Comment deleted", {
+        id: notificationId,
+      });
+      refetchComments();
+    }
+  }, [isSuccessDelete]);
 
   return (
     <div className="px-2 py-2 bg-gray-200 rounded-lg">
@@ -81,7 +112,7 @@ const PostComment: React.FC<Props> = ({
                     }}
                   />
                 ) : (
-                  <Trash onClick={() => console.log("delete")} />
+                  <Trash onClick={handleDelete} />
                 )}
               </p>
             </div>

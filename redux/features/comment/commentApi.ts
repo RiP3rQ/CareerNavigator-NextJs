@@ -18,6 +18,13 @@ export const commentApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    deleteComment: builder.mutation({
+      query: ({ commentId }) => ({
+        url: `delete-comment/${commentId}`,
+        method: "DELETE",
+        credentials: "include" as const,
+      }),
+    }),
     getAllPostComments: builder.mutation({
       query: ({ postId }) => ({
         url: `get-post-comments/${postId}`,
@@ -31,5 +38,6 @@ export const commentApi = apiSlice.injectEndpoints({
 export const {
   useAddCommentMutation,
   useEditCommentMutation,
+  useDeleteCommentMutation,
   useGetAllPostCommentsMutation,
 } = commentApi;

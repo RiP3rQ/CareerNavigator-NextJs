@@ -32,7 +32,6 @@ const CVUploadForm: React.FC<Props> = ({ user }) => {
     refetchOnMountOrArgChange: true,
   });
 
-  // TODO: Fix uploading CVs
   // handle CV upload
   const handleFileChange = (e: any) => {
     const file = e.target.files?.[0];

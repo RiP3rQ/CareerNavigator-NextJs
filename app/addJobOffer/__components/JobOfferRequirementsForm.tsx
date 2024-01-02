@@ -92,7 +92,6 @@ const JobOfferRequirementsForm: React.FC<Props> = ({
 
   console.log(skills);
 
-  // TODO: repair error displaying
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       {skills.length > 0 && (
@@ -127,33 +126,31 @@ const JobOfferRequirementsForm: React.FC<Props> = ({
 
       <Separator className="my-4" />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-4 py-4"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="py-4 w-full">
           <FormField
             control={form.control}
             name="skill"
             render={({ field }) => (
-              <FormItem className="flex items-center justify-center">
-                <FormLabel className="w-full text-center text-white">
+              <FormItem className="flex items-center justify-center flex-col">
+                <FormLabel className="w-[20%] text-center text-white">
                   Skill name:
                 </FormLabel>
-                <FormControl className="w-full">
+                <FormControl className="w-[80%]">
                   <Input
                     placeholder="Enter skill name..."
                     {...field}
-                    className="col-span-3"
+                    className="w-full"
                   />
                 </FormControl>
                 <FormMessage className="w-full p-0 mt-0 text-center" />
               </FormItem>
             )}
           />
-
-          <Button type="submit" className="bg-blue-500">
-            Add to list
-          </Button>
+          <div className="flex items-center justify-center w-full">
+            <Button type="submit" className="bg-blue-500 mt-4">
+              Add to list
+            </Button>
+          </div>
         </form>
       </Form>
       <Separator className="my-4" />

@@ -19,6 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useState } from "react";
 import { X } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 type Props = {
   jobOfferCompanyInfo: {
@@ -166,7 +167,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
     setActive(active + 1);
   }
 
-  // TODO:  location autocomplete + mapbox, delete description from this form
+  // TODO:  location autocomplete + mapbox
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">
@@ -185,11 +186,11 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
                 <FormLabel className="text-right pr-2 text-white">
-                  name:
+                  Name:
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter name..."
+                    placeholder="etc. Facebook"
                     {...field}
                     className="col-span-3"
                   />
@@ -204,11 +205,11 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
                 <FormLabel className="text-right pr-2 text-white">
-                  description:
+                  Description:
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Enter description..."
+                  <Textarea
+                    placeholder="etc. Facebook is an American online social media and social networking service..."
                     {...field}
                     className="col-span-3"
                   />
@@ -223,11 +224,11 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
                 <FormLabel className="text-right pr-2 text-white">
-                  website:
+                  Website URL:
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter website..."
+                    placeholder="etc. https://www.facebook.com/"
                     {...field}
                     className="col-span-3"
                   />
@@ -253,7 +254,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
                 <X size={20} className="text-white" />
               </div>
             )}
-            <p className=" text-right pr-2 text-white">logo:</p>
+            <p className=" text-right pr-2 text-white">Company's logo:</p>
             <Input
               type="file"
               accept="image/*"
@@ -280,7 +281,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
                   />
                 </>
               ) : (
-                <span className="text-black">
+                <span className="text-black text-center">
                   Drag 'n' drop your company's logo here, or click to select
                   file
                 </span>
@@ -293,11 +294,11 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
                 <FormLabel className="text-right pr-2 text-white">
-                  location:
+                  Location:
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter location..."
+                    placeholder="etc. Warsaw, Poland"
                     {...field}
                     className="col-span-3"
                   />
@@ -339,7 +340,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
           />
 
           <Button type="submit" className="bg-blue-500">
-            Save
+            Next step
           </Button>
         </form>
       </Form>

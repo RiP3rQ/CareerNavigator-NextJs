@@ -82,7 +82,7 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">
         <Label className="text-2xl font-bold ">
-          Basic infoformation about the job offer
+          Basic information about the job offer
         </Label>
       </div>
 
@@ -98,11 +98,11 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
                 <FormLabel className="text-right pr-2 text-white">
-                  title:
+                  Title:
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter title..."
+                    placeholder="etc. Fullstack developer"
                     {...field}
                     className="col-span-3"
                   />
@@ -117,11 +117,11 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
                 <FormLabel className="text-right pr-2 text-white">
-                  salaryRange:
+                  Salary:
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter salaryRange..."
+                    placeholder="etc. 4000-8000PLN"
                     {...field}
                     className="col-span-3"
                   />
@@ -136,11 +136,11 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
                 <FormLabel className="text-right pr-2 text-white">
-                  remote:
+                  Remote:
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter remote..."
+                    placeholder="etc. Fully remote"
                     {...field}
                     className="col-span-3"
                   />
@@ -155,11 +155,11 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
                 <FormLabel className="text-right pr-2 text-white">
-                  contractType:
+                  Contract:
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter contractType..."
+                    placeholder="etc. B2B/UoP"
                     {...field}
                     className="col-span-3"
                   />
@@ -169,7 +169,7 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
             )}
           />
           <Button type="submit" className="bg-blue-500">
-            Save
+            Next step
           </Button>
         </form>
       </Form>
