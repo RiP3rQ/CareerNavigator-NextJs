@@ -79,6 +79,7 @@ const BlogPage = (props: Props) => {
       {posts?.length > 0 ? (
         posts?.map((post: any, index: number) => (
           <div
+            key={index}
             className="bg-transparent hover:bg-slate-300 hover:rounded-lg h-fit w-full cursor-pointer"
             onClick={handlePostClick(post._id)}
           >

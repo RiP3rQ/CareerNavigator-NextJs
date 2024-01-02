@@ -3,9 +3,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useConfirmModal } from "@/hooks/useConfirmModal";
 import { useGetPostByIdMutation } from "@/redux/features/post/postApi";
 import { Edit, Trash } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -16,6 +17,8 @@ const BlogPostDetailPage = (props: Props) => {
   const [postDate, setPostDate] = useState<string>(""); // "2021-06-14"
   const [postTime, setPostTime] = useState<string>(""); // "16:45"
   const [loading, setLoading] = useState<boolean>(true);
+  const confirmModal = useConfirmModal();
+  const router = useRouter();
   // get postId from url
   const postId = useParams().postId;
   // redux action to get all posts
@@ -42,26 +45,38 @@ const BlogPostDetailPage = (props: Props) => {
     }
   }, [isSuccess, error]);
 
+  const handleEditClick = () => {
+    confirmModal.data = {
+      title: "Edit post",
+      description: "Are you sure you want to edit this post?",
+    };
+    confirmModal.action = () => {
+      router.push(`/blog/editPost/${post._id}`);
+    };
+    confirmModal.onOpen();
+  };
+
+  const handleDeleteClick = () => {
+    confirmModal.data = {
+      title: "Delete post",
+      description: "Are you sure you want to delete this post?",
+    };
+    confirmModal.action = () => {
+      // TODO: Delete comment functionality
+      console.log("Delete post");
+    };
+    confirmModal.onOpen();
+  };
+
+  // TODO: Fetch comments functionality
+  // TODO: Add comment functionality
+
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
         <p className="text-2xl font-bold text-black">Loading...</p>
       </div>
     );
-
-  const handleEditClick = () => {
-    console.log("edit");
-  };
-
-  const handleDeleteClick = () => {
-    console.log("delete");
-  };
-
-  // TODO: Confirm action modal
-  // TODO: Edit comment functionality
-  // TODO: Delete comment functionality
-  // TODO: Fetch comments functionality
-  // TODO: Add comment functionality
 
   return (
     <div className="px-8 md:max-w-7xl mx-auto mt-8">

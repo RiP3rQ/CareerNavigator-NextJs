@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type LoginModalStore = {
+type ConfirmModalStore = {
   data: {
     title: string;
     description: string;
@@ -11,7 +11,7 @@ type LoginModalStore = {
   action: () => void;
 };
 
-export const useLoginModal = create<LoginModalStore>((set) => ({
+export const useConfirmModal = create<ConfirmModalStore>((set) => ({
   data: {
     title: "",
     description: "",

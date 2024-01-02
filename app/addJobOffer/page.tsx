@@ -55,6 +55,7 @@ const AddJobOfferPage: React.FC<Props> = () => {
   ]);
 
   // TODO: Change form labels and placeholders
+  // TODO: Edit job offer functionality
   return (
     <div className="w-full flex min-h-screen">
       <ProtectedRoute>

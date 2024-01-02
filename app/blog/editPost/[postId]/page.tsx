@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,12 @@ import { X } from "lucide-react";
 import { toast } from "sonner";
 import ProtectedRoute from "@/hooks/useProtectedRoute";
 import MetaDataProvider from "@/app/providers/MetaDataProvider";
+import {
+  useEditPostMutation,
+  useGetPostByIdMutation,
+} from "@/redux/features/post/postApi";
+import { redirect, useParams } from "next/navigation";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
@@ -18,8 +24,32 @@ const EditPostPage = (props: Props) => {
   const [title, setTitle] = useState<string>(""); // "title"
   const [description, setDescription] = useState<string>(""); // "description"
   const [preview, setPreview] = useState<string>();
+  const [public_id, setPublic_id] = useState<string>("");
   const [tagInput, setTagInput] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]); // ["tag1", "tag2"]
+
+  // get postId from url
+  const postId = useParams().postId;
+  // get user data from redux
+  const { user } = useSelector((state: any) => state.auth);
+  // redux action to get all posts
+  const [getPostById, { isSuccess, error }] = useGetPostByIdMutation();
+  // redux edit post action
+  const [editPost, { isSuccess: isSuccessEdit, error: errorEdit }] =
+    useEditPostMutation();
+
+  // fetch post on page load
+  useEffect(() => {
+    getPostById({ postId }).then((res: any) => {
+      const { title, description, tags, postImage } = res.data?.post;
+      setTitle(title);
+      setDescription(description);
+      setTags(tags);
+      setPreview(postImage.url);
+      setPublic_id(postImage.public_id);
+      console.log(res.data?.post);
+    });
+  }, []);
 
   // tag handlers
   const handleAddTag = () => {
@@ -53,6 +83,7 @@ const EditPostPage = (props: Props) => {
       reader.readAsDataURL(file);
       reader.onload = (e: any) => {
         setPreview(e.target.result);
+        setPublic_id(file.name);
       };
     }
   };
@@ -77,14 +108,30 @@ const EditPostPage = (props: Props) => {
 
       reader.onload = (e: any) => {
         setPreview(e.target.result);
+        setPublic_id(file.name);
       };
 
       reader.readAsDataURL(file);
     }
   };
 
+  // do action base on success or error
+  useEffect(() => {
+    if (isSuccess) {
+      // display toast
+      toast.success("Post edit successfully", {
+        position: "top-center",
+      });
+      // redirect to blog page
+      redirect("/blog");
+    }
+    if (errorEdit) {
+      console.log(errorEdit);
+    }
+  }, [isSuccessEdit, errorEdit]);
+
   // Create post
-  const handleCreatePost = () => {
+  const handleEditPost = () => {
     if (!preview) {
       toast.error("Please upload an image");
       return;
@@ -103,18 +150,28 @@ const EditPostPage = (props: Props) => {
     } else if (description === "") {
       toast.error("Please enter a description");
       return;
-    } else if (description.length > 2000) {
-      toast.error("Description cannot be longer than 2000 characters");
+    } else if (description.length > 4000) {
+      toast.error("Description cannot be longer than 4000 characters");
       return;
     }
 
-    // create post
-    toast.success("Post created successfully");
-    // reset state
-    setPreview(undefined);
-    setTags([]);
-    setTitle("");
-    setDescription("");
+    const username = `${user.firstName}_${user.lastName}`;
+
+    const data = {
+      title,
+      description,
+      tags,
+      postImage: {
+        public_id: public_id,
+        url: preview,
+      },
+      username: username,
+      userId: user._id,
+    };
+
+    console.log(data);
+
+    editPost({ data, postId });
   };
 
   return (
@@ -228,9 +285,9 @@ const EditPostPage = (props: Props) => {
           {/* Submit */}
           <Button
             className="bg-black text-white px-4 py-2"
-            onClick={handleCreatePost}
+            onClick={handleEditPost}
           >
-            Create post
+            Edit post
           </Button>
         </div>
       </ProtectedRoute>
