@@ -35,9 +35,6 @@ const BlogPage = (props: Props) => {
   // fetch all posts on search filter change
   useEffect(() => {
     if (searchReady) {
-      toast.loading("Fetching posts...", {
-        id: notificationId,
-      });
       getAllPosts({
         data: {
           searchFilter,
@@ -51,9 +48,6 @@ const BlogPage = (props: Props) => {
   // do action base on success or error
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Posts fetched successfully", {
-        id: notificationId,
-      });
       setSearchReady(false);
       setSearchFilter("");
     }

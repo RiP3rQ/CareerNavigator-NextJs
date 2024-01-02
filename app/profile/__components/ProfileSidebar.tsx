@@ -42,7 +42,7 @@ const ProfileSidebar: React.FC<Props> = ({
         />
         <div className="pl-3 flex items-start justify-start flex-col text-white w-full line-clamp-1">
           <p className="text-base">
-            {user.firstName} {user.lastName}
+            {user.firstName} {"  "} {user.lastName}
           </p>
           <p className="text-sm ">{user.email}</p>
         </div>

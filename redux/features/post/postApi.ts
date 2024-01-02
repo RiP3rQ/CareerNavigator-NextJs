@@ -18,9 +18,10 @@ export const postApi = apiSlice.injectEndpoints({
       }),
     }),
     getPostById: builder.mutation({
-      query: ({ postId }) => ({
+      query: ({ postId, comment }) => ({
         url: `get-post-by-id/${postId}`,
         method: "GET",
+        body: comment,
       }),
     }),
     editPost: builder.mutation({
@@ -28,6 +29,13 @@ export const postApi = apiSlice.injectEndpoints({
         url: `edit-post/${postId}`,
         method: "PUT",
         body: data,
+        credentials: "include" as const,
+      }),
+    }),
+    deletePost: builder.mutation({
+      query: ({ postId }) => ({
+        url: `delete-post/${postId}`,
+        method: "DELETE",
         credentials: "include" as const,
       }),
     }),
@@ -40,4 +48,5 @@ export const {
   useGetAllPostsMutation,
   useGetPostByIdMutation,
   useEditPostMutation,
+  useDeletePostMutation,
 } = postApi;

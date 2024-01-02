@@ -47,7 +47,6 @@ const EditPostPage = (props: Props) => {
       setTags(tags);
       setPreview(postImage.url);
       setPublic_id(postImage.public_id);
-      console.log(res.data?.post);
     });
   }, []);
 
@@ -168,8 +167,6 @@ const EditPostPage = (props: Props) => {
       username: username,
       userId: user._id,
     };
-
-    console.log(data);
 
     editPost({ data, postId });
   };

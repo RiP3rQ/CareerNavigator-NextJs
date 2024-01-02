@@ -4,34 +4,64 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useConfirmModal } from "@/hooks/useConfirmModal";
-import { useGetPostByIdMutation } from "@/redux/features/post/postApi";
+import { useGetAllPostCommentsMutation } from "@/redux/features/comment/commentApi";
+import {
+  useDeletePostMutation,
+  useGetPostByIdMutation,
+} from "@/redux/features/post/postApi";
 import { Edit, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "sonner";
+import PostComment from "./__components/PostComment";
+import MetaDataProvider from "@/app/providers/MetaDataProvider";
+import AddComment from "./__components/AddComment";
 
 type Props = {};
 
 const BlogPostDetailPage = (props: Props) => {
-  const [post, setPost] = useState<any>({}); // {}
-  const [postDate, setPostDate] = useState<string>(""); // "2021-06-14"
-  const [postTime, setPostTime] = useState<string>(""); // "16:45"
-  const [loading, setLoading] = useState<boolean>(true);
-  const confirmModal = useConfirmModal();
+  // router navigation
   const router = useRouter();
   // get postId from url
   const postId = useParams().postId;
+  const [post, setPost] = useState<any>({}); // {}
+  const [comments, setComments] = useState<any>([]); // []
+  const [postDate, setPostDate] = useState<string>(""); // "2021-06-14"
+  const [postTime, setPostTime] = useState<string>(""); // "16:45"
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // custom hook for confirm modal
+  const confirmModal = useConfirmModal();
+
   // redux action to get all posts
   const [getPostById, { isSuccess, error }] = useGetPostByIdMutation();
+  // redux action for getting all comments
+  const [getAllPostComments] = useGetAllPostCommentsMutation();
   // get user data from redux
   const { user } = useSelector((state: any) => state.auth);
+  // redux action to delete post
+  const [deletePost, { isSuccess: isSuccessDelete, error: errorDelete }] =
+    useDeletePostMutation();
+
+  let notificationId: any;
 
   // fetch post on page load
   useEffect(() => {
     getPostById({ postId }).then((res: any) => {
       setPost(res.data?.post);
     });
+    getAllPostComments({ postId }).then((res: any) => {
+      setComments(res.data?.comments);
+    });
   }, []);
+
+  // refetch comments after adding new comment
+  const refetchComments = () => {
+    getAllPostComments({ postId }).then((res: any) => {
+      setComments(res.data?.comments);
+    });
+  };
 
   // do action base on success or error
   useEffect(() => {
@@ -62,14 +92,27 @@ const BlogPostDetailPage = (props: Props) => {
       description: "Are you sure you want to delete this post?",
     };
     confirmModal.action = () => {
-      // TODO: Delete comment functionality
-      console.log("Delete post");
+      deletePost({ postId: post._id });
+      toast.loading("Deleting post is process...", {
+        position: "top-center",
+        id: notificationId,
+      });
     };
     confirmModal.onOpen();
   };
 
-  // TODO: Fetch comments functionality
-  // TODO: Add comment functionality
+  useEffect(() => {
+    if (isSuccessDelete) {
+      router.push("/blog");
+      toast.success("Post deleted successfully", {
+        position: "top-center",
+        id: notificationId,
+      });
+    }
+    if (errorDelete) {
+      console.log(errorDelete);
+    }
+  }, [isSuccessDelete, errorDelete]);
 
   if (loading)
     return (
@@ -80,6 +123,10 @@ const BlogPostDetailPage = (props: Props) => {
 
   return (
     <div className="px-8 md:max-w-7xl mx-auto mt-8">
+      <MetaDataProvider
+        title="Blog post"
+        description="Fullstack Job Searching Site by @RiP3rQ"
+      />
       {/* Title, edit, delete */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-black md:text-3xl">
@@ -129,47 +176,20 @@ const BlogPostDetailPage = (props: Props) => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col my-4 ">
-        <h3 className="mt-6 mb-4 font-semibold">Comments:</h3>
-        {/* TODO: Redux feting comments */}
-        {/* TODO: Adding comments */}
-        {/* Single Comment */}
-        <div className="px-2 py-2 bg-gray-200 rounded-lg">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold text-gray-600">@essabessa</h3>
-            <div className="flex justify-center items-center space-x-4">
-              <p className="text-gray-500 text-sm">14/06/2023</p>
-              <p className="text-gray-500 text-sm">16:45</p>
-              {/* actions */}
-              <div className="flex items-center justify-center space-x-2">
-                <p>
-                  <Edit />
-                </p>
-                <p>
-                  <Trash />
-                </p>
-              </div>
-            </div>
-          </div>
-          <p className="px-4 mt-2">
-            Nice Comment! Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Quia neque nobis explicabo quam at architecto temporibus sint
-            nam veniam accusantium sequi alias illo molestias omnis repudiandae,
-            quos maxime earum distinctio?
-          </p>
-        </div>
+      <div className="flex flex-col space-y-2">
+        <h3 className="mt-6 mb-4 font-semibold ">Comments:</h3>
+        {comments?.map((comment: any, index: number) => (
+          <PostComment key={index} comment={comment} />
+        ))}
       </div>
       {/* Write own comment */}
-      <div className="flex flex-col mt-4 md:flex-row md:space-x-2">
-        <Input
-          type="text"
-          placeholder="Write a comment..."
-          className="md:w-[90%] outline-none py-2 px-4 mt-4 md:mt-0"
-        />
-        <Button className="bg-black text-white px-4 py-2 md:w-[10%] mt-4 md:mt-0">
-          Add comment
-        </Button>
-      </div>
+
+      <AddComment
+        user={user}
+        postId={postId}
+        refetchComments={refetchComments}
+      />
+
       <br />
     </div>
   );
