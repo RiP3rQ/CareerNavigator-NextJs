@@ -4,11 +4,11 @@ import MetaDataProvider from "@/app/providers/MetaDataProvider";
 import { useGetSingleJobOfferQuery } from "@/redux/features/jobOffer/jobOfferApi";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import JobOfferInfo from "./__components/JobOfferInfo";
+import JobOfferInfo from "@/components/jobOffers/JobOfferInfo";
 import { JobOffer } from "@/types/jobOffer";
-import TechStackInfo from "./__components/TechStackInfo";
-import JobDescription from "./__components/JobDescription";
-import ApplyButton from "./__components/ApplyButton";
+import TechStackInfo from "@/components/jobOffers/TechStackInfo";
+import JobDescription from "@/components/jobOffers/JobDescription";
+import ApplyButton from "@/components/jobOffers/ApplyButton";
 
 type Props = {};
 
@@ -41,6 +41,8 @@ const SingleJobOfferPage = (props: Props) => {
       </div>
     );
 
+  //TODO: apply functionality
+
   return (
     <div className="w-full flex min-h-[90%] px-4 mt-2">
       <MetaDataProvider
@@ -63,7 +65,7 @@ const SingleJobOfferPage = (props: Props) => {
           <JobDescription description={jobOffer.description} />
           <ApplyButton />
         </div>
-        {/* Right side - map with location + apply button */}
+        {/* Right side - TODO: map with location + apply button */}
         <div className="hidden lg:flex w-[35%] h-full bg-blue-400"></div>
       </div>
     </div>

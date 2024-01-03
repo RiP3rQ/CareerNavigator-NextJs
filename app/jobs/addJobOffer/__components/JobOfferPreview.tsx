@@ -1,5 +1,10 @@
 "use client";
 
+import Mapbox from "@/components/Mapbox";
+import ApplyButton from "@/components/jobOffers/ApplyButton";
+import JobDescription from "@/components/jobOffers/JobDescription";
+import JobOfferInfo from "@/components/jobOffers/JobOfferInfo";
+import TechStackInfo from "@/components/jobOffers/TechStackInfo";
 import { Button } from "@/components/ui/button";
 import { useCreateJobOfferMutation } from "@/redux/features/jobOffer/jobOfferApi";
 import { useRouter } from "next/navigation";
@@ -44,11 +49,34 @@ const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
 
   // TODO: Add preview page
   return (
-    <div className="w-full h-full flex items-center justify-center flex-col">
-      <Button onClick={handleCreateJobOffer}>Add</Button>
-      <h1>Preview job offer in construction</h1>
+    <div className="w-[80%] mx-auto flex" id="singleJobOfferWrapper">
+      {/* Left side - Job offer info */}
+      <div className="w-full h-full bg-yellow-400 space-y-2">
+        <JobOfferInfo
+          companyLogo={jobOfferData?.company.logo.url}
+          jobTitle={jobOfferData?.title}
+          companyName={jobOfferData?.company.name}
+          companyLocation={jobOfferData?.company.location}
+          salaryRange={jobOfferData?.salaryRange}
+          remote={jobOfferData?.remote}
+          contractType={jobOfferData?.contractType}
+        />
+        <TechStackInfo tags={jobOfferData.jobOfferSkills} />
+        <JobDescription description={jobOfferData.description} />
+        <div className="w-full h-96">
+          <Mapbox location={jobOfferData?.company.geoLocation} />
+        </div>
+        <ApplyButton onClick={handleCreateJobOffer} />
+      </div>
     </div>
   );
 };
 
 export default JobOfferPreview;
+
+{
+  /* <div className="w-full h-full flex items-center justify-center flex-col">
+      
+      <h1>Preview job offer in construction</h1>
+    </div> */
+}

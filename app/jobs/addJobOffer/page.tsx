@@ -28,8 +28,8 @@ const AddJobOfferPage: React.FC<Props> = () => {
     },
     location: "",
     geoLocation: {
-      lat: 1.0 as number,
-      lng: 1.0 as number,
+      latitude: 1.0 as number,
+      longitude: 1.0 as number,
     },
   });
   const [jobOfferDescription, setJobOfferDescription] = useState({

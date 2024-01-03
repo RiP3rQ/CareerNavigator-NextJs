@@ -69,21 +69,21 @@ const Navbar = (props: Props) => {
       </div>
       {/* Right side */}
       <div className="h-full w-fit flex items-center justify-end space-x-4">
-        {path === "/" ? (
-          <Button
-            variant={"primary"}
-            className="cursor-pointer  "
-            onClick={handleAddOffer}
-          >
-            Add Offer
-          </Button>
-        ) : (
+        {path.startsWith("/blog") ? (
           <Button
             variant={"primary"}
             className="cursor-pointer  "
             onClick={handleAddPost}
           >
             Add Post
+          </Button>
+        ) : (
+          <Button
+            variant={"primary"}
+            className="cursor-pointer  "
+            onClick={handleAddOffer}
+          >
+            Add Offer
           </Button>
         )}
 

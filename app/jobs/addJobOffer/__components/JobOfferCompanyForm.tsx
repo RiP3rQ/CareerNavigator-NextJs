@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import Mapbox from "@/components/Mapbox";
 
 type Props = {
   jobOfferCompanyInfo: {
@@ -31,8 +32,8 @@ type Props = {
     };
     location: string;
     geoLocation: {
-      lat: number;
-      lng: number;
+      latitude: number;
+      longitude: number;
     };
   };
   setJobOfferCompanyInfo: (jobOfferCompanyInfo: {
@@ -44,8 +45,8 @@ type Props = {
     };
     location: string;
     geoLocation: {
-      lat: number;
-      lng: number;
+      latitude: number;
+      longitude: number;
     };
   }) => void;
   active: number;
@@ -60,7 +61,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(4, { message: "Must be 4 or more characters long" })
-    .max(50, { message: "Must be 50 or fewer characters long" }),
+    .max(300, { message: "Must be 300 or fewer characters long" }),
   website: z
     .string()
     .min(2, { message: "Must be 2 or more characters long" })
@@ -68,11 +69,7 @@ const formSchema = z.object({
   location: z
     .string()
     .min(2, { message: "Must be 2 or more characters long" })
-    .max(300, { message: "Must be 300 or fewer characters long" }),
-  geoLocation: z.object({
-    lat: z.coerce.number().min(-90).max(90), // SOLUTION: use coerce.number() instead of number()
-    lng: z.coerce.number().min(-180).max(180),
-  }),
+    .max(50, { message: "Must be 300 or fewer characters long" }),
 });
 
 const JobOfferCompanyForm: React.FC<Props> = ({
@@ -81,6 +78,10 @@ const JobOfferCompanyForm: React.FC<Props> = ({
   active,
   setActive,
 }) => {
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
   // drag n' drop state
   const [dragging, setDragging] = useState(false);
   // Define your form.
@@ -91,10 +92,6 @@ const JobOfferCompanyForm: React.FC<Props> = ({
       description: jobOfferCompanyInfo.description || "",
       website: jobOfferCompanyInfo.website || "",
       location: jobOfferCompanyInfo.location || "",
-      geoLocation: {
-        lat: jobOfferCompanyInfo.geoLocation.lat || 0.0,
-        lng: jobOfferCompanyInfo.geoLocation.lng || 0.0,
-      },
     },
   });
 
@@ -152,6 +149,12 @@ const JobOfferCompanyForm: React.FC<Props> = ({
 
   // Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!location.latitude || !location.longitude)
+      return toast.error("Please choose exact location");
+
+    if (!jobOfferCompanyInfo.logo.url)
+      return toast.error("Please upload company's logo");
+
     toast.success("Company info saved");
     setJobOfferCompanyInfo({
       ...jobOfferCompanyInfo,
@@ -160,15 +163,13 @@ const JobOfferCompanyForm: React.FC<Props> = ({
       website: values.website,
       location: values.location,
       geoLocation: {
-        lat: values.geoLocation.lat,
-        lng: values.geoLocation.lng,
+        latitude: location.latitude,
+        longitude: location.longitude,
       },
     });
     setActive(active + 1);
   }
 
-  // TODO:  location autocomplete + mapbox
-  // TODO: longer description
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">
@@ -186,7 +187,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             name="name"
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
-                <FormLabel className="text-right pr-2 text-white">
+                <FormLabel className="text-right pr-2 text-white pt-2">
                   Name:
                 </FormLabel>
                 <FormControl>
@@ -205,7 +206,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             name="description"
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
-                <FormLabel className="text-right pr-2 text-white">
+                <FormLabel className="text-right pr-2 text-white pt-2">
                   Description:
                 </FormLabel>
                 <FormControl>
@@ -224,7 +225,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             name="website"
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
-                <FormLabel className="text-right pr-2 text-white">
+                <FormLabel className="text-right pr-2 text-white pt-2">
                   Website URL:
                 </FormLabel>
                 <FormControl>
@@ -255,7 +256,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
                 <X size={20} className="text-white" />
               </div>
             )}
-            <p className=" text-right pr-2 text-white">Company's logo:</p>
+            <p className=" text-right pr-2 text-white pt-2">Company's logo:</p>
             <Input
               type="file"
               accept="image/*"
@@ -294,8 +295,8 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             name="location"
             render={({ field }) => (
               <FormItem className="grid grid-cols-4 items-center justify-center">
-                <FormLabel className="text-right pr-2 text-white">
-                  Location:
+                <FormLabel className="text-right pr-2 text-white pt-2">
+                  Closes big city:
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -309,36 +310,14 @@ const JobOfferCompanyForm: React.FC<Props> = ({
             )}
           />
           {/* TODO: Add interactive mapbox and google location autocomplete */}
-          <FormField
-            control={form.control}
-            name="geoLocation.lat"
-            render={({ field }) => (
-              <FormItem className="grid grid-cols-4 items-center justify-center">
-                <FormLabel className="text-right pr-2 text-white">
-                  geoLocation.lat:
-                </FormLabel>
-                <FormControl>
-                  <Input type="number" {...field} className="col-span-3" />
-                </FormControl>
-                <FormMessage className="col-span-4 p-0 mt-0 text-center" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="geoLocation.lng"
-            render={({ field }) => (
-              <FormItem className="grid grid-cols-4 items-center justify-center">
-                <FormLabel className="text-right pr-2 text-white">
-                  geoLocation.lng:
-                </FormLabel>
-                <FormControl>
-                  <Input type="number" {...field} className="col-span-3" />
-                </FormControl>
-                <FormMessage className="col-span-4 p-0 mt-0 text-center" />
-              </FormItem>
-            )}
-          />
+          <div className="w-full h-fit">
+            <Label className="text-white text-2xl">
+              Choose exact location:
+            </Label>
+            <div className="w-full h-96">
+              <Mapbox setLocation={setLocation} />
+            </div>
+          </div>
 
           <Button type="submit" className="bg-blue-500">
             Next step

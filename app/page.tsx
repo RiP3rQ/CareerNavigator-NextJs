@@ -58,6 +58,7 @@ export default function Home() {
   );
 }
 
+// TODO: cookies modal
 // TODO: Suspence skeleton functionality
 // TODO: Edit job offer functionality
 // TODO: Crated job offer functionality

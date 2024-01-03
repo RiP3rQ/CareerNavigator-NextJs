@@ -24,17 +24,6 @@ const JobOfferInfo: React.FC<Props> = ({
   remote,
   contractType,
 }) => {
-  if (
-    !companyLogo ||
-    !jobTitle ||
-    !companyName ||
-    !companyLocation ||
-    !salaryRange ||
-    !remote ||
-    !contractType
-  )
-    return null;
-
   return (
     <div className="w-full h-fit">
       {/* Header */}
