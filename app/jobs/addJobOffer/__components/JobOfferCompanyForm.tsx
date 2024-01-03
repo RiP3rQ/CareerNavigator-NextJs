@@ -168,6 +168,7 @@ const JobOfferCompanyForm: React.FC<Props> = ({
   }
 
   // TODO:  location autocomplete + mapbox
+  // TODO: longer description
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">

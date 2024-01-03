@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BlogPost from "../__components/BlogPost";
 import { useRouter } from "next/navigation";
-import SearchBar from "../__components/SearchBar";
+import SearchBar from "../../../components/SearchBar";
 
 type Props = {};
 

@@ -78,6 +78,7 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
     setActive(active + 1);
   }
 
+  // TODO: Enum Remote and ContractType
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">

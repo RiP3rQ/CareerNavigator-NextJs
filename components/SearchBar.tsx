@@ -6,15 +6,17 @@ type Props = {
   setSearchReady: (ready: boolean) => void;
   searchFilter: string;
   setSearchFilter: (filter: string) => void;
+  placeholder?: string;
 };
 
 const SearchBar: React.FC<Props> = ({
   setSearchReady,
   searchFilter,
   setSearchFilter,
+  placeholder,
 }) => {
   return (
-    <div className="w-96 relative">
+    <div className="w-full h-10 relative">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -23,7 +25,7 @@ const SearchBar: React.FC<Props> = ({
       >
         <Input
           type="text"
-          placeholder="Search for posts..."
+          placeholder={placeholder ? placeholder : "Search for posts..."}
           className="pr-10"
           value={searchFilter}
           onChange={(e) => setSearchFilter(e.target.value)}

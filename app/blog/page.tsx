@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import BlogPost from "./__components/BlogPost";
-import SearchBar from "./__components/SearchBar";
+import SearchBar from "../../components/SearchBar";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useGetAllPostsMutation } from "@/redux/features/post/postApi";
@@ -62,13 +62,16 @@ const BlogPage = (props: Props) => {
         title="Blog"
         description="Fullstack Job Searching Site by @RiP3rQ"
       />
-      <div className="w-full flex items-center justify-center my-4">
-        <SearchBar
-          setSearchReady={setSearchReady}
-          searchFilter={searchFilter}
-          setSearchFilter={setSearchFilter}
-        />
+      <div className=" flex items-center justify-center my-4">
+        <div className="w-96">
+          <SearchBar
+            setSearchReady={setSearchReady}
+            searchFilter={searchFilter}
+            setSearchFilter={setSearchFilter}
+          />
+        </div>
       </div>
+
       <Separator className="w-full" />
       {posts?.length > 0 ? (
         posts?.map((post: any, index: number) => (

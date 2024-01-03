@@ -10,8 +10,15 @@ export const jobOfferApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getAllJobOffers: builder.query({
+      query: () => ({
+        url: "get-all-job-offers",
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateJobOfferMutation } = jobOfferApi;
+export const { useCreateJobOfferMutation, useGetAllJobOffersQuery } =
+  jobOfferApi;
