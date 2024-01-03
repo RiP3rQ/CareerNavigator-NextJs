@@ -57,6 +57,8 @@ export default function Home() {
   );
 }
 
+// TODO: Alredy applied job offers functionality + delete from server hiding element from jobOffer
+
 // TODO: Suspence skeleton functionality
 // TODO: Edit job offer functionality
 // TODO: Delete job offer functionality

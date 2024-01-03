@@ -49,6 +49,13 @@ export const jobOfferApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    applyForJobOffer: builder.mutation({
+      query: ({ jobOfferId }) => ({
+        url: `apply-for-job-offer/${jobOfferId}`,
+        method: "POST",
+        credentials: "include" as const,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -61,4 +68,5 @@ export const {
   useDeleteJobOfferMutation,
   useFilterJobOffersBySkillsMutation,
   useFilterJobOffersByTitleMutation,
+  useApplyForJobOfferMutation,
 } = jobOfferApi;

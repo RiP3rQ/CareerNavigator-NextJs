@@ -1,7 +1,10 @@
 "use client";
 
 import MetaDataProvider from "@/app/providers/MetaDataProvider";
-import { useGetSingleJobOfferQuery } from "@/redux/features/jobOffer/jobOfferApi";
+import {
+  useApplyForJobOfferMutation,
+  useGetSingleJobOfferQuery,
+} from "@/redux/features/jobOffer/jobOfferApi";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import JobOfferInfo from "@/components/jobOffers/JobOfferInfo";
@@ -10,6 +13,7 @@ import TechStackInfo from "@/components/jobOffers/TechStackInfo";
 import JobDescription from "@/components/jobOffers/JobDescription";
 import ApplyButton from "@/components/jobOffers/ApplyButton";
 import Mapbox from "@/components/Mapbox";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -23,15 +27,38 @@ const SingleJobOfferPage = (props: Props) => {
       refetchOnMountOrArgChange: true,
     }
   );
+  // redux to apply for job offer
+  const [applyForJobOffer, { isSuccess: isSuccessApply, error: errorApply }] =
+    useApplyForJobOfferMutation();
 
   useEffect(() => {
     if (isSuccess) {
       setJobOffer(data.jobOffer);
     }
     if (error) {
-      console.log("error", error);
+      console.log(error);
     }
   }, [isSuccess, error]);
+
+  useEffect(() => {
+    if (isSuccessApply) {
+      toast.success("Applied for job offer", {
+        position: "top-center",
+      });
+    }
+    if (errorApply) {
+      if ("data" in errorApply) {
+        const errorData = errorApply.data as any;
+        toast.error(errorData.message, {
+          position: "top-center",
+        });
+      }
+    }
+  }, [isSuccessApply, errorApply]);
+
+  const handleApplyClick = () => {
+    applyForJobOffer({ jobOfferId });
+  };
 
   if (isLoading || !jobOffer)
     return (
@@ -41,11 +68,6 @@ const SingleJobOfferPage = (props: Props) => {
         </h1>
       </div>
     );
-
-  //TODO: apply functionality
-  const handleApplyClick = () => {
-    console.log("Apply clicked");
-  };
 
   return (
     <div className="w-full flex min-h-[90%] px-4 mt-2">
@@ -67,6 +89,9 @@ const SingleJobOfferPage = (props: Props) => {
           />
           <TechStackInfo tags={jobOffer.jobOfferSkills} />
           <JobDescription description={jobOffer.description} />
+          <div className="flex lg:hidden">
+            <ApplyButton onClick={handleApplyClick} />
+          </div>
         </div>
         <div className="hidden lg:flex lg:flex-col lg:space-y-5 w-[35%] h-full ">
           <div className="w-full h-96">
