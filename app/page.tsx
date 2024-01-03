@@ -57,11 +57,13 @@ export default function Home() {
   );
 }
 
-// TODO: Alredy applied job offers functionality + delete from server hiding element from jobOffer
-
-// TODO: Suspence skeleton functionality
 // TODO: Edit job offer functionality
 // TODO: Delete job offer functionality
+
+// TODO: Suspence skeleton functionality
+
+// TODO: My job offers page
+// TODO: Display applications for job offer
 
 // TODO: Add job offer to favorites
 // TODO: Add job offer to applied

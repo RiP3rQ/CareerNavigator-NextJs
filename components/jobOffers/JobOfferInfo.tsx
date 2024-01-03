@@ -11,6 +11,7 @@ type Props = {
   salaryRange: string;
   remote: string;
   contractType: string;
+  alreadyApplied?: boolean;
 };
 
 // TODO: new badge should be visible only for 3 days
@@ -23,6 +24,7 @@ const JobOfferInfo: React.FC<Props> = ({
   salaryRange,
   remote,
   contractType,
+  alreadyApplied,
 }) => {
   return (
     <div className="w-full h-fit">
@@ -49,6 +51,11 @@ const JobOfferInfo: React.FC<Props> = ({
           </div>
           {/* absolute right top */}
           <div className="absolute top-0 right-4 space-x-2 flex items-center justify-center">
+            {alreadyApplied ? (
+              <Badge className="bg-transparent bg-green-400 border border-slate-200 text-xs py-2">
+                Applied
+              </Badge>
+            ) : null}
             <Badge className="bg-transparent border border-slate-200 text-xs py-2">
               New
             </Badge>

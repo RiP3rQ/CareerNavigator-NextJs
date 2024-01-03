@@ -14,6 +14,7 @@ import JobDescription from "@/components/jobOffers/JobDescription";
 import ApplyButton from "@/components/jobOffers/ApplyButton";
 import Mapbox from "@/components/Mapbox";
 import { toast } from "sonner";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 
 type Props = {};
 
@@ -30,6 +31,15 @@ const SingleJobOfferPage = (props: Props) => {
   // redux to apply for job offer
   const [applyForJobOffer, { isSuccess: isSuccessApply, error: errorApply }] =
     useApplyForJobOfferMutation();
+  // redux get user
+  const { data: UserData } = useLoadUserQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const alreadyApplied = jobOffer?.jobOfferApplicants?.some(
+    (applicant) =>
+      applicant.jobOfferApplicantId.toString() === UserData?.user?._id
+  );
 
   useEffect(() => {
     if (isSuccess) {
@@ -86,6 +96,7 @@ const SingleJobOfferPage = (props: Props) => {
             salaryRange={jobOffer?.salaryRange}
             remote={jobOffer?.remote}
             contractType={jobOffer?.contractType}
+            alreadyApplied={alreadyApplied}
           />
           <TechStackInfo tags={jobOffer.jobOfferSkills} />
           <JobDescription description={jobOffer.description} />
