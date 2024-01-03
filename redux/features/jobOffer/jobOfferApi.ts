@@ -10,7 +10,22 @@ export const jobOfferApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
-    getAllJobOffers: builder.query({
+    editJobOffer: builder.mutation({
+      query: ({ jobOfferId, data }) => ({
+        url: `edit-job-offer/${jobOfferId}`,
+        method: "PUT",
+        body: data,
+        credentials: "include" as const,
+      }),
+    }),
+    deleteJobOffer: builder.mutation({
+      query: ({ jobOfferId }) => ({
+        url: `delete-job-offer/${jobOfferId}`,
+        method: "DELETE",
+        credentials: "include" as const,
+      }),
+    }),
+    getAllJobOffers: builder.mutation({
       query: () => ({
         url: "get-all-job-offers",
         method: "GET",
@@ -22,12 +37,28 @@ export const jobOfferApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    filterJobOffersBySkills: builder.mutation({
+      query: ({ tag }) => ({
+        url: `filter-all-job-offer-by-tag/${tag}`,
+        method: "GET",
+      }),
+    }),
+    filterJobOffersByTitle: builder.mutation({
+      query: ({ title }) => ({
+        url: `filter-all-job-offer-by-title/${title}`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
 export const {
   useCreateJobOfferMutation,
-  useGetAllJobOffersQuery,
+  useGetAllJobOffersMutation,
   useGetSingleJobOfferQuery,
+  useEditJobOfferMutation,
+  useDeleteJobOfferMutation,
+  useFilterJobOffersBySkillsMutation,
+  useFilterJobOffersByTitleMutation,
 } = jobOfferApi;

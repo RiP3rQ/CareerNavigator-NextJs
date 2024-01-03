@@ -16,20 +16,42 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 
 type Props = {
   jobOfferBasicInfo: {
     title: string;
     salaryRange: string;
-    remote: string;
-    contractType: string;
+    remote: "Remote" | "Hybrid" | "Office";
+    contractType:
+      | "B2B"
+      | "UoP"
+      | "UZ"
+      | "B2B/UoP"
+      | "B2B/UZ"
+      | "UoP/UZ"
+      | "B2B/UoP/UZ";
   };
   setJobOfferBasicInfo: (jobOfferBasicInfo: {
     title: string;
     salaryRange: string;
-    remote: string;
-    contractType: string;
+    remote: "Remote" | "Hybrid" | "Office";
+    contractType:
+      | "B2B"
+      | "UoP"
+      | "UZ"
+      | "B2B/UoP"
+      | "B2B/UZ"
+      | "UoP/UZ"
+      | "B2B/UoP/UZ";
   }) => void;
   active: number;
   setActive: (active: number) => void;
@@ -44,14 +66,16 @@ const formSchema = z.object({
     .string()
     .min(4, { message: "Must be 4 or more characters long" })
     .max(50, { message: "Must be 50 or fewer characters long" }),
-  remote: z
-    .string()
-    .min(2, { message: "Must be 2 or more characters long" })
-    .max(50, { message: "Must be 50 or fewer characters long" }),
-  contractType: z
-    .string()
-    .min(2, { message: "Must be 2 or more characters long" })
-    .max(300, { message: "Must be 300 or fewer characters long" }),
+  remote: z.enum(["Remote", "Hybrid", "Office"]),
+  contractType: z.enum([
+    "B2B",
+    "UoP",
+    "UZ",
+    "B2B/UoP",
+    "B2B/UZ",
+    "UoP/UZ",
+    "B2B/UoP/UZ",
+  ]),
 });
 
 const JobOfferBasicInfoForm: React.FC<Props> = ({
@@ -78,7 +102,6 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
     setActive(active + 1);
   }
 
-  // TODO: Enum Remote and ContractType
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">
@@ -140,11 +163,21 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
                   Remote:
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="etc. Fully remote"
-                    {...field}
-                    className="col-span-3"
-                  />
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="col-span-3">
+                      <SelectValue placeholder="Select organization of work" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="Remote">Fully Remote</SelectItem>
+                        <SelectItem value="Hybrid">Hybrid Work</SelectItem>
+                        <SelectItem value="Office">Office based</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage className="col-span-4 p-0 mt-0 text-center" />
               </FormItem>
@@ -159,11 +192,25 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
                   Contract:
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="etc. B2B/UoP"
-                    {...field}
-                    className="col-span-3"
-                  />
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="col-span-3">
+                      <SelectValue placeholder="Select type of contract" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="B2B">B2B</SelectItem>
+                        <SelectItem value="UoP">UoP</SelectItem>
+                        <SelectItem value="UZ">UZ</SelectItem>
+                        <SelectItem value="B2B/UoP">B2B/UoP</SelectItem>
+                        <SelectItem value="B2B/UZ">B2B/UZ</SelectItem>
+                        <SelectItem value="UoP/UZ">UoP/UZ</SelectItem>
+                        <SelectItem value="B2B/UoP/UZ">B2B/UoP/UZ</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage className="col-span-4 p-0 mt-0 text-center" />
               </FormItem>

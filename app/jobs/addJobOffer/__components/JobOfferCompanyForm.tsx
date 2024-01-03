@@ -309,7 +309,6 @@ const JobOfferCompanyForm: React.FC<Props> = ({
               </FormItem>
             )}
           />
-          {/* TODO: Add interactive mapbox and google location autocomplete */}
           <div className="w-full h-fit">
             <Label className="text-white text-2xl">
               Choose exact location:

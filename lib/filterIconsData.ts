@@ -24,4 +24,14 @@ export const filterIconsData = [
       "https://res.cloudinary.com/dr3jjyqgi/image/upload/v1704286372/filterIcons/gozy03tv58enzanj3qvk.webp",
     filterValue: "MERN",
   },
+  {
+    image:
+      "https://res.cloudinary.com/dr3jjyqgi/image/upload/v1704315935/filterIcons/oalmqtjnx2knnawzffrx.png",
+    filterValue: "DevOps",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dr3jjyqgi/image/upload/v1704315935/filterIcons/hoinnzez3ouxofybiq0t.png",
+    filterValue: "Java",
+  },
 ];

@@ -1,20 +1,39 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
 import MetaDataProvider from "./providers/MetaDataProvider";
-import SearchBar from "@/components/SearchBar";
-import { useState } from "react";
-import IconFilterItem from "./__components/IconFilterItem";
-import { filterIconsData } from "@/lib/filterIconsData";
-import MoreFiltersButton from "./__components/MoreFiltersButton";
-import JobOffers from "./__components/JobOffers";
-import Mapbox from "@/components/Mapbox";
 import JobOffersBody from "./__components/JobOffers";
+import JobOffersFilters from "./__components/JobOffersFilters";
+import { useEffect, useState } from "react";
+import { JobOffer } from "@/types/jobOffer";
+import { useGetAllJobOffersMutation } from "@/redux/features/jobOffer/jobOfferApi";
 
 export default function Home() {
-  const [searchFilter, setSearchFilter] = useState<string>(""); // "title"
-  const [searchTagFilter, setSearchTagFilter] = useState<string>(""); // "tags"
-  const [searchReady, setSearchReady] = useState<boolean>(false);
+  const [jobOffers, setJobOffers] = useState<JobOffer[]>([]);
+
+  // redux get jobOffers
+  const [getAllJobOffers, { isSuccess, error, reset }] =
+    useGetAllJobOffersMutation();
+
+  useEffect(() => {
+    getAllJobOffers({}).then((res: any) => {
+      setJobOffers(res.data.jobOffers);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [isSuccess, error]);
+
+  const handleRefetch = () => {
+    getAllJobOffers({}).then((res: any) => {
+      setJobOffers(res.data.jobOffers);
+    });
+  };
 
   return (
     <div className="">
@@ -22,44 +41,25 @@ export default function Home() {
         title="CareerNavigator"
         description="Fullstack Job Searching Site by @RiP3rQ"
       />
-      <div className="w-full h-full mt-4 px-4" id="Wrapper">
-        <div className="w-full h-fit flex mb-2" id="top-search-filters">
-          <div className="w-[40%] h-10">
-            <SearchBar
-              setSearchReady={setSearchReady}
-              searchFilter={searchFilter}
-              setSearchFilter={setSearchFilter}
-              placeholder="Search job titles..."
-            />
-          </div>
-          <div className="w-[45%] h-10 flex flex-row items-center justify-center">
-            {filterIconsData.map((filterIconData, index) => (
-              <IconFilterItem
-                key={index}
-                image={filterIconData.image}
-                filterValue={filterIconData.filterValue}
-                setFilter={setSearchTagFilter}
-              />
-            ))}
-          </div>
-          <div className="w-[15%] h-10">
-            <MoreFiltersButton />
-          </div>
-        </div>
-        <div className="w-full h-[84vh] flex" id="main-content">
-          <JobOffersBody />
+      <div className="w-full h-full mt-4 px-4 " id="Wrapper">
+        <JobOffersFilters
+          setJobOffers={setJobOffers}
+          handleRefetch={handleRefetch}
+        />
+        <div
+          className="w-full h-[84vh] flex bg-slate-300 rounded-md"
+          id="main-content"
+        >
+          <JobOffersBody jobOffers={jobOffers} setJobOffers={setJobOffers} />
         </div>
       </div>
     </div>
   );
 }
 
-// TODO: cookies modal
 // TODO: Suspence skeleton functionality
 // TODO: Edit job offer functionality
-
-// TODO: Filter job offers by tags
-// TODO: Filter job offers by title
+// TODO: Delete job offer functionality
 
 // TODO: Add job offer to favorites
 // TODO: Add job offer to applied
@@ -68,11 +68,4 @@ export default function Home() {
 // TODO: Socket.io for alerts
 // TODO: Chat functionality
 
-{
-  /* <div className="w-full min-h-[90vh] flex items-center justify-center flex-col">
-        <h1 className="text-6xl font-bold text-purple-700 mb-2 animate-pulse">
-          CareerNavigator
-        </h1>
-        <h5>Loading page ...</h5>
-      </div> */
-}
+// TODO: Upgrade blog features

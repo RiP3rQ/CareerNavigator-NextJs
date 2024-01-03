@@ -68,7 +68,6 @@ const SingleJobOfferPage = (props: Props) => {
           <TechStackInfo tags={jobOffer.jobOfferSkills} />
           <JobDescription description={jobOffer.description} />
         </div>
-        {/* Right side - TODO: map with location + apply button */}
         <div className="hidden lg:flex lg:flex-col lg:space-y-5 w-[35%] h-full ">
           <div className="w-full h-96">
             <Mapbox location={jobOffer?.company.geoLocation} disabled={true} />

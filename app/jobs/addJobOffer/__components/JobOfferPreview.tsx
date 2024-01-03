@@ -47,7 +47,6 @@ const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
     }
   };
 
-  // TODO: Add preview page
   return (
     <div className="w-[80%] mx-auto flex" id="singleJobOfferWrapper">
       {/* Left side - Job offer info */}
@@ -73,10 +72,3 @@ const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
 };
 
 export default JobOfferPreview;
-
-{
-  /* <div className="w-full h-full flex items-center justify-center flex-col">
-      
-      <h1>Preview job offer in construction</h1>
-    </div> */
-}

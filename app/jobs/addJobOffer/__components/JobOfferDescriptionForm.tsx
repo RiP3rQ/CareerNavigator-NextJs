@@ -34,7 +34,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(4, { message: "Must be 4 or more characters long" })
-    .max(1000, { message: "Must be 1000 or fewer characters long" }),
+    .max(2000, { message: "Must be 2000 or fewer characters long" }),
 });
 
 const JobOfferDescriptionForm: React.FC<Props> = ({
@@ -58,7 +58,6 @@ const JobOfferDescriptionForm: React.FC<Props> = ({
     setActive(active + 1);
   }
 
-  // TODO: Repair error messages display
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       <div className="w-full text-center pt-4 text-white">
@@ -72,7 +71,7 @@ const JobOfferDescriptionForm: React.FC<Props> = ({
             control={form.control}
             name="description"
             render={({ field }) => (
-              <FormItem className="flex items-center justify-center">
+              <FormItem className="flex flex-col items-center justify-center">
                 <FormControl className="w-full">
                   <Textarea
                     {...field}
