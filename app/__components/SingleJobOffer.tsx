@@ -8,15 +8,24 @@ import React from "react";
 
 type Props = {
   jobOffer: JobOffer;
+  index: number;
+  setIndexOfHoveredJobOffer: (index: number) => void;
 };
 
-const SingleJobOffer: React.FC<Props> = ({ jobOffer }) => {
+const SingleJobOffer: React.FC<Props> = ({
+  jobOffer,
+  index,
+  setIndexOfHoveredJobOffer,
+}) => {
   const router = useRouter();
+
   return (
     <div
       className="w-full h-16 bg-slate-700 p-2 rounded-lg text-white flex cursor-pointer hover:bg-slate-600 transition-all"
       id="offerWrapper"
       onClick={() => router.push(`/jobs/${jobOffer._id}`)}
+      onMouseEnter={() => setIndexOfHoveredJobOffer(index)}
+      onMouseLeave={() => setIndexOfHoveredJobOffer(-1)}
     >
       {/* Left - Comapny logo */}
       <div className="w-[20%] h-full">

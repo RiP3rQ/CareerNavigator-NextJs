@@ -8,7 +8,8 @@ import IconFilterItem from "./__components/IconFilterItem";
 import { filterIconsData } from "@/lib/filterIconsData";
 import MoreFiltersButton from "./__components/MoreFiltersButton";
 import JobOffers from "./__components/JobOffers";
-import Map from "@/components/Map";
+import Mapbox from "@/components/Mapbox";
+import JobOffersBody from "./__components/JobOffers";
 
 export default function Home() {
   const [searchFilter, setSearchFilter] = useState<string>(""); // "title"
@@ -45,13 +46,8 @@ export default function Home() {
             <MoreFiltersButton />
           </div>
         </div>
-        <div className="w-full h-[80vh] flex" id="main-content">
-          <div className="w-[50%] h-full">
-            <JobOffers />
-          </div>
-          <div className="w-[50%] h-full bg-green-400">
-            <Map />
-          </div>
+        <div className="w-full h-[84vh] flex" id="main-content">
+          <JobOffersBody />
         </div>
       </div>
     </div>
@@ -61,8 +57,7 @@ export default function Home() {
 // TODO: cookies modal
 // TODO: Suspence skeleton functionality
 // TODO: Edit job offer functionality
-// TODO: Crated job offer functionality
-// TODO: Sindle job offer page
+
 // TODO: Filter job offers by tags
 // TODO: Filter job offers by title
 

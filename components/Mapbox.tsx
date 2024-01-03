@@ -5,6 +5,7 @@ import Map, { Marker, MapLayerMouseEvent } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import { RiMapPinFill } from "react-icons/ri";
+import { CheckCheck } from "lucide-react";
 
 type Props = {
   location?: {
@@ -13,15 +14,26 @@ type Props = {
   };
   setLocation?: (location: { latitude: number; longitude: number }) => void;
   disabled?: boolean;
+  jobOfferLocations?: {
+    latitude: number;
+    longitude: number;
+  }[];
+  indexOfHoveredJobOffer?: number;
 };
 
-const Mapbox: React.FC<Props> = ({ location, setLocation, disabled }) => {
+const Mapbox: React.FC<Props> = ({
+  location,
+  setLocation,
+  disabled,
+  jobOfferLocations,
+  indexOfHoveredJobOffer,
+}) => {
   const [viewport, setViewport] = useState({
     width: "100%",
     height: "100%",
     longitude: location?.longitude || 19.4808,
     latitude: location?.latitude || 52.0692,
-    zoom: location ? 12 : 7,
+    zoom: location ? 12 : 5,
   });
   const [clickedLocation, setClickedLocation] = useState({
     longitude: location?.longitude || 0,
@@ -58,15 +70,32 @@ const Mapbox: React.FC<Props> = ({ location, setLocation, disabled }) => {
       }
       onClick={(e) => handleClick(e)}
     >
+      {/* Click on map for long/lat */}
       {clickedLocation.longitude && clickedLocation.latitude ? (
         <Marker
           longitude={clickedLocation.longitude}
           latitude={clickedLocation.latitude}
           offset={[0, -20]}
         >
-          <RiMapPinFill size={40} color="pink" />
+          <RiMapPinFill size={40} color="#A855F7" />
         </Marker>
       ) : null}
+      {/* JobOffers Markers */}
+      {jobOfferLocations?.map((jobOfferLocation, index) => (
+        <Marker
+          key={index}
+          longitude={jobOfferLocation.longitude}
+          latitude={jobOfferLocation.latitude}
+          offset={[0, -20]}
+        >
+          <CheckCheck
+            size={30}
+            className={`bg-blue-400 text-white rounded-full ${
+              indexOfHoveredJobOffer === index && "animate-bounce"
+            }`}
+          />
+        </Marker>
+      ))}
     </Map>
   );
 };
