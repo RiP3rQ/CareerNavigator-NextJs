@@ -97,6 +97,7 @@ const SingleJobOfferPage = (props: Props) => {
             remote={jobOffer?.remote}
             contractType={jobOffer?.contractType}
             alreadyApplied={alreadyApplied}
+            updatedAt={jobOffer?.updatedAt}
           />
           <TechStackInfo tags={jobOffer.jobOfferSkills} />
           <JobDescription description={jobOffer.description} />

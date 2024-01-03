@@ -29,4 +29,6 @@ export type JobOffer = {
     jobOfferApplicantId: string;
     status: string;
   }[];
+  createdAt: Date;
+  updatedAt: Date;
 };

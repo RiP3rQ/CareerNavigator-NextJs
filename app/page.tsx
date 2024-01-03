@@ -60,16 +60,20 @@ export default function Home() {
 // TODO: Edit job offer functionality
 // TODO: Delete job offer functionality
 
-// TODO: Suspence skeleton functionality
-
 // TODO: My job offers page
 // TODO: Display applications for job offer
 
 // TODO: Add job offer to favorites
 // TODO: Add job offer to applied
 
+// TODO: Suspence skeleton functionality
+// TODO: Responsive design
+
 // TODO: Pro modal for payments
 // TODO: Socket.io for alerts
 // TODO: Chat functionality
 
 // TODO: Upgrade blog features
+
+// TODO: hamburger menu for mobile
+// TODO: Social Auth buttons + functionality (Google, LinkedIn)

@@ -1,7 +1,20 @@
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Building, MapPin, Share2 } from "lucide-react";
+import { BookOpen, Building, Copy, MapPin, Share2 } from "lucide-react";
 import React from "react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "../ui/button";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type Props = {
   companyLogo: string;
@@ -12,10 +25,9 @@ type Props = {
   remote: string;
   contractType: string;
   alreadyApplied?: boolean;
+  updatedAt: Date;
 };
 
-// TODO: new badge should be visible only for 3 days
-// TODO: share button dropdown functionality with link and copy to clipboard
 const JobOfferInfo: React.FC<Props> = ({
   companyLogo,
   jobTitle,
@@ -25,7 +37,43 @@ const JobOfferInfo: React.FC<Props> = ({
   remote,
   contractType,
   alreadyApplied,
+  updatedAt,
 }) => {
+  // check if updatedAt is less than 3 days
+  const isLessThan3Days = (updatedAt: Date) => {
+    const now = new Date();
+    const postDate = new Date(updatedAt);
+    const diff = now.getTime() - postDate.getTime();
+    const diffInDays = diff / (1000 * 3600 * 24);
+    if (diffInDays < 3) {
+      return true;
+    }
+    return false;
+  };
+
+  // route to share job offer
+  const routeToShare = usePathname();
+
+  // handle share button click
+  const handleShareClick = () => {
+    navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_PUBLIC_URL}${routeToShare}`
+    );
+    toast.success("Link copied to clipboard", {
+      position: "top-center",
+      unstyled: true,
+      style: {
+        backgroundColor: "#4B5563",
+        color: "#00ff00",
+        padding: "2rem",
+        display: "flex",
+        justifyItems: "center",
+        alignItems: "center",
+        borderRadius: "1rem",
+      },
+    });
+  };
+
   return (
     <div className="w-full h-fit">
       {/* Header */}
@@ -56,12 +104,49 @@ const JobOfferInfo: React.FC<Props> = ({
                 Applied
               </Badge>
             ) : null}
-            <Badge className="bg-transparent border border-slate-200 text-xs py-2">
-              New
-            </Badge>
-            <div className="bg-slate-400 p-2 rounded-full cursor-pointer">
-              <Share2 className="w-5 h-5" />
-            </div>
+            {isLessThan3Days(updatedAt) ? (
+              <Badge className="bg-transparent border border-slate-200 text-xs py-2">
+                New
+              </Badge>
+            ) : null}
+            {/* SHARE BUTTON */}
+
+            <Drawer>
+              <DrawerTrigger>
+                <div className="bg-slate-400 p-2 rounded-full cursor-pointer">
+                  <Share2 className="w-5 h-5" onClick={handleShareClick} />
+                </div>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>
+                    Want to share this job offer with someone?
+                  </DrawerTitle>
+                  <DrawerDescription>
+                    Press Copy to copy the link to your clipboard
+                  </DrawerDescription>
+                </DrawerHeader>
+                <div className="w-full py-4">
+                  <input
+                    type="text"
+                    className="w-full bg-slate-200 rounded-md p-2"
+                    value={`${process.env.NEXT_PUBLIC_PUBLIC_URL}${routeToShare}`}
+                    readOnly
+                  />
+                </div>
+                <DrawerFooter>
+                  <Button className="text-2xl" onClick={handleShareClick}>
+                    Copy
+                    <Copy className="ml-4" />
+                  </Button>
+                  <DrawerClose>
+                    <Button className="w-full bg-slate-200" variant={"ghost"}>
+                      Cancel
+                    </Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
           </div>
           {/* absolute right bottom */}
           <div className="absolute bottom-4 right-4">
