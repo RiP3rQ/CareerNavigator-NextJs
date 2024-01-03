@@ -9,6 +9,7 @@ import { JobOffer } from "@/types/jobOffer";
 import TechStackInfo from "@/components/jobOffers/TechStackInfo";
 import JobDescription from "@/components/jobOffers/JobDescription";
 import ApplyButton from "@/components/jobOffers/ApplyButton";
+import Mapbox from "@/components/Mapbox";
 
 type Props = {};
 
@@ -42,6 +43,9 @@ const SingleJobOfferPage = (props: Props) => {
     );
 
   //TODO: apply functionality
+  const handleApplyClick = () => {
+    console.log("Apply clicked");
+  };
 
   return (
     <div className="w-full flex min-h-[90%] px-4 mt-2">
@@ -49,9 +53,9 @@ const SingleJobOfferPage = (props: Props) => {
         title="Single Job Offer"
         description="Fullstack Job Searching Site by @RiP3rQ"
       />
-      <div className="w-full flex" id="singleJobOfferWrapper">
+      <div className="w-full flex space-x-2" id="singleJobOfferWrapper">
         {/* Left side - Job offer info */}
-        <div className="w-full lg:w-[65%] h-full bg-yellow-400 space-y-2">
+        <div className="w-full lg:w-[65%] h-full space-y-2">
           <JobOfferInfo
             companyLogo={jobOffer?.company.logo.url}
             jobTitle={jobOffer?.title}
@@ -63,10 +67,14 @@ const SingleJobOfferPage = (props: Props) => {
           />
           <TechStackInfo tags={jobOffer.jobOfferSkills} />
           <JobDescription description={jobOffer.description} />
-          <ApplyButton />
         </div>
         {/* Right side - TODO: map with location + apply button */}
-        <div className="hidden lg:flex w-[35%] h-full bg-blue-400"></div>
+        <div className="hidden lg:flex lg:flex-col lg:space-y-5 w-[35%] h-full ">
+          <div className="w-full h-96">
+            <Mapbox location={jobOffer?.company.geoLocation} disabled={true} />
+          </div>
+          <ApplyButton onClick={handleApplyClick} />
+        </div>
       </div>
     </div>
   );

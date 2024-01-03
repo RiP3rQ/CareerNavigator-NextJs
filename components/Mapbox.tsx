@@ -12,15 +12,16 @@ type Props = {
     longitude: number;
   };
   setLocation?: (location: { latitude: number; longitude: number }) => void;
+  disabled?: boolean;
 };
 
-const Mapbox: React.FC<Props> = ({ location, setLocation }) => {
+const Mapbox: React.FC<Props> = ({ location, setLocation, disabled }) => {
   const [viewport, setViewport] = useState({
     width: "100%",
     height: "100%",
-    longitude: 19.4808,
-    latitude: 52.0692,
-    zoom: 5,
+    longitude: location?.longitude || 19.4808,
+    latitude: location?.latitude || 52.0692,
+    zoom: location ? 12 : 7,
   });
   const [clickedLocation, setClickedLocation] = useState({
     longitude: location?.longitude || 0,
@@ -29,6 +30,7 @@ const Mapbox: React.FC<Props> = ({ location, setLocation }) => {
 
   // handle map click
   const handleClick = (e: MapLayerMouseEvent) => {
+    if (disabled) return;
     setClickedLocation({
       longitude: e.lngLat.lng,
       latitude: e.lngLat.lat,

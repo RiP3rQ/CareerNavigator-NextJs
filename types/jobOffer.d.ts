@@ -8,8 +8,8 @@ type ICompany = {
   };
   location: string;
   geoLocation: {
-    lat: number;
-    lng: number;
+    latitude: number;
+    longitude: number;
   };
 };
 
