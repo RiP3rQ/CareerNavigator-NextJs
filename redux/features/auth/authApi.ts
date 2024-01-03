@@ -84,7 +84,7 @@ export const authApi = apiSlice.injectEndpoints({
     logOut: builder.query({
       query: () => ({
         url: "logout",
-        method: "POST",
+        method: "GET",
         credentials: "include" as const,
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {

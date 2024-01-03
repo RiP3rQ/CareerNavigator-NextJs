@@ -20,7 +20,7 @@ const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
   useEffect(() => {
     if (isSuccess) {
       notificationId = toast.success("Job offer created successfully");
-      router.push("/createdJobOffers");
+      router.push("/jobs/createdJobOffers");
     }
     if (error) {
       if ("data" in error) {
@@ -44,8 +44,9 @@ const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
 
   // TODO: Add preview page
   return (
-    <div>
-      <Button onClick={handleCreateJobOffer}>Preview</Button>
+    <div className="w-full h-full flex items-center justify-center flex-col">
+      <Button onClick={handleCreateJobOffer}>Add</Button>
+      <h1>Preview job offer in construction</h1>
     </div>
   );
 };

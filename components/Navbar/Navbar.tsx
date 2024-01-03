@@ -19,11 +19,15 @@ const Navbar = (props: Props) => {
   const router = useRouter();
 
   const handleAddOffer = () => {
-    router.push("/addJobOffer");
+    router.push("/jobs/addJobOffer");
   };
 
   const handleBookmarkClick = () => {
     console.log("Bookmark clicked");
+  };
+
+  const handleLogoClick = () => {
+    router.push("/");
   };
 
   const handleAddPost = () => {
@@ -37,7 +41,10 @@ const Navbar = (props: Props) => {
       {/* Left side */}
       <div className="h-full flex items-center justify-start space-x-2 ">
         {/* LOGO */}
-        <div className="flex items-start justify-start flex-col text-white">
+        <div
+          className="flex items-start justify-start flex-col text-white cursor-pointer"
+          onClick={handleLogoClick}
+        >
           <p className="text-xl">Career</p>
           <p className="text-sm">Navigator</p>
         </div>

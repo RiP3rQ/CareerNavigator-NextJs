@@ -18,3 +18,8 @@ export default function Home() {
 }
 
 // TODO: Edit job offer functionality
+// TODO: Pro modal for payments
+// TODO: Add job offer to favorites
+// TODO: Add job offer to applied
+// TODO: Socket.io for alerts
+// TODO: Chat functionality

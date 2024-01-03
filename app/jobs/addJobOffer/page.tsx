@@ -6,7 +6,7 @@ import JobOfferCompanyForm from "./__components/JobOfferCompanyForm";
 import JobOfferDescriptionForm from "./__components/JobOfferDescriptionForm";
 import JobOfferRequirementsForm from "./__components/JobOfferRequirementsForm";
 import JobOfferPreview from "./__components/JobOfferPreview";
-import MetaDataProvider from "../providers/MetaDataProvider";
+import MetaDataProvider from "../../providers/MetaDataProvider";
 import ProtectedRoute from "@/hooks/useProtectedRoute";
 
 type Props = {};
@@ -55,7 +55,7 @@ const AddJobOfferPage: React.FC<Props> = () => {
   ]);
 
   return (
-    <div className="w-full flex min-h-screen">
+    <div className="w-full flex min-h-[90%]">
       <ProtectedRoute>
         <MetaDataProvider
           title="Add Job Offer"
@@ -96,7 +96,7 @@ const AddJobOfferPage: React.FC<Props> = () => {
           )}
           {active === 4 && <JobOfferPreview jobOfferData={jobOfferData} />}
         </div>
-        <div className="w-[25%] mt-[100px] h-screen fixed z-10 top-12 right-3">
+        <div className="w-[25%] mt-[100px] h-[90%] fixed z-10 top-12 right-3">
           <JobOfferSteps active={active} setActive={setActive} />
         </div>
       </ProtectedRoute>
