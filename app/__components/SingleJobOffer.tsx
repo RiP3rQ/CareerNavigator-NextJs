@@ -1,12 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
+import { JobOffer } from "@/types/jobOffer";
 import { Building, MapPin } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {
-  jobOffer: any;
+  jobOffer: JobOffer;
 };
 
 const SingleJobOffer: React.FC<Props> = ({ jobOffer }) => {

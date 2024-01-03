@@ -22,7 +22,7 @@ export default function Home() {
         description="Fullstack Job Searching Site by @RiP3rQ"
       />
       <div className="w-full h-full mt-4 px-4" id="Wrapper">
-        <div className="w-full h-fit flex" id="top-search-filters">
+        <div className="w-full h-fit flex mb-2" id="top-search-filters">
           <div className="w-[40%] h-10">
             <SearchBar
               setSearchReady={setSearchReady}
@@ -58,7 +58,7 @@ export default function Home() {
   );
 }
 
-// Main page
+// TODO: Suspence skeleton functionality
 // TODO: Edit job offer functionality
 // TODO: Crated job offer functionality
 // TODO: Sindle job offer page

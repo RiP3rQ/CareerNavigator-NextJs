@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import SingleJobOffer from "./SingleJobOffer";
 import { Separator } from "@/components/ui/separator";
 import { useGetAllJobOffersQuery } from "@/redux/features/jobOffer/jobOfferApi";
+import { JobOffer } from "@/types/jobOffer";
 
 type Props = {};
 
 const JobOffers = (props: Props) => {
-  const [jobOffers, setJobOffers] = useState([]);
+  const [jobOffers, setJobOffers] = useState<JobOffer[]>([]);
   // redux get jobOffers
   const { data, isSuccess, error } = useGetAllJobOffersQuery(undefined, {
     refetchOnMountOrArgChange: true,

@@ -16,9 +16,18 @@ export const jobOfferApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSingleJobOffer: builder.query({
+      query: ({ jobOfferId }) => ({
+        url: `get-job-offer/${jobOfferId}`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateJobOfferMutation, useGetAllJobOffersQuery } =
-  jobOfferApi;
+export const {
+  useCreateJobOfferMutation,
+  useGetAllJobOffersQuery,
+  useGetSingleJobOfferQuery,
+} = jobOfferApi;
