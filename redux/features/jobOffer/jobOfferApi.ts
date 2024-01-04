@@ -37,6 +37,13 @@ export const jobOfferApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getAllJobOffersByUserId: builder.mutation({
+      query: ({ userId }) => ({
+        url: `get-job-offers-by-user/${userId}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
     filterJobOffersBySkills: builder.mutation({
       query: ({ tag }) => ({
         url: `filter-all-job-offer-by-tag/${tag}`,
@@ -64,6 +71,7 @@ export const {
   useCreateJobOfferMutation,
   useGetAllJobOffersMutation,
   useGetSingleJobOfferQuery,
+  useGetAllJobOffersByUserIdMutation,
   useEditJobOfferMutation,
   useDeleteJobOfferMutation,
   useFilterJobOffersBySkillsMutation,

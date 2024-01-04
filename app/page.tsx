@@ -57,15 +57,13 @@ export default function Home() {
   );
 }
 
-// TODO: Finish buttons
-// TODO: Edit job offer functionality
-// TODO: Delete job offer functionality
-
 // TODO: My job offers page
 // TODO: Display applications for job offer
 
 // TODO: Add job offer to favorites
 // TODO: Add job offer to applied
+
+// TODO: Repair user profile page
 
 // TODO: Pro modal for payments
 // TODO: Socket.io for alerts
