@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useConfirmModal } from "@/hooks/useConfirmModal";
 import { useDeleteJobOfferMutation } from "@/redux/features/jobOffer/jobOfferApi";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -25,6 +26,8 @@ const ApplyButton: React.FC<Props> = ({
   const [deleteJobOffer, { isSuccess, error }] = useDeleteJobOfferMutation();
   // router
   const router = useRouter();
+  // custom hook for confirm modal
+  const confirmModal = useConfirmModal();
 
   const handleEditClick = () => {
     if (jobOfferRecruiterId === userId) {
@@ -37,7 +40,14 @@ const ApplyButton: React.FC<Props> = ({
   };
 
   const handleDeleteClick = () => {
-    deleteJobOffer({ jobOfferId });
+    confirmModal.data = {
+      title: "Delete job offer",
+      description: "Are you sure you want to DELETE this job offer?",
+    };
+    confirmModal.action = () => {
+      deleteJobOffer({ jobOfferId });
+    };
+    confirmModal.onOpen();
   };
 
   useEffect(() => {
@@ -45,6 +55,7 @@ const ApplyButton: React.FC<Props> = ({
       toast.success("Job offer deleted", {
         position: "top-center",
       });
+      router.push("/");
     }
     if (error) {
       console.log(error);

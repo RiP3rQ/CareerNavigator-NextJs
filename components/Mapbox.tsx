@@ -96,6 +96,16 @@ const Mapbox: React.FC<Props> = ({
           />
         </Marker>
       ))}
+      {/* Marker for selected location via create/edit jobOffer form */}
+      {location?.longitude && location?.latitude ? (
+        <Marker
+          longitude={location.longitude}
+          latitude={location.latitude}
+          offset={[0, -20]}
+        >
+          <RiMapPinFill size={40} color="#A855F7" />
+        </Marker>
+      ) : null}
     </Map>
   );
 };

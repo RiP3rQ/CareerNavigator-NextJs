@@ -96,7 +96,7 @@ const JobOfferPreview: React.FC<Props> = ({ jobOfferData }) => {
         <TechStackInfo tags={jobOfferData.jobOfferSkills} />
         <JobDescription description={jobOfferData.description} />
         <div className="w-full h-96">
-          <Mapbox location={jobOfferData?.company.geoLocation} />
+          <Mapbox disabled location={jobOfferData?.company.geoLocation} />
         </div>
         {isEdit ? (
           <ApplyButton
