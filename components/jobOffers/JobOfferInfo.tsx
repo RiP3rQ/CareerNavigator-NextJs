@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { BookOpen, Building, Copy, MapPin, Share2, Star } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -16,6 +16,7 @@ import { Button } from "../ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAddToFavouritesMutation } from "@/redux/features/jobOffer/jobOfferApi";
+import { useSelector } from "react-redux";
 
 type Props = {
   jobOfferId?: string;
@@ -48,6 +49,8 @@ const JobOfferInfo: React.FC<Props> = ({
   // redux action for adding job offer to favorites
   const [addJobOfferToFavorites, { data, error, isSuccess }] =
     useAddToFavouritesMutation();
+  // get user data from redux
+  const { user } = useSelector((state: any) => state.auth);
 
   // check if updatedAt is less than 3 days
   const isLessThan3Days = (updatedAt: Date) => {
@@ -61,10 +64,20 @@ const JobOfferInfo: React.FC<Props> = ({
     return false;
   };
 
-  console.log(data);
+  useEffect(() => {
+    if (
+      user?.jobsOffersFavorites?.some((jobOffer: { jobOfferId: string }) =>
+        jobOffer.jobOfferId === jobOfferId ? true : false
+      )
+    ) {
+      setIsFavorited(true);
+    } else {
+      setIsFavorited(false);
+    }
+  }, [user]);
 
   // action based on redux response
-  React.useEffect(() => {
+  useEffect(() => {
     if (isSuccess) {
       if (data.favourited) {
         toast.success("Added to favorites", {

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BlogPost from "../__components/BlogPost";
 import { useRouter } from "next/navigation";
+import ProtectedRoute from "@/hooks/useProtectedRoute";
 
 type Props = {};
 
@@ -31,29 +32,31 @@ const MyBlogPosts = (props: Props) => {
 
   return (
     <div className="max-w-7xl mx-4 lg:mx-auto">
-      <MetaDataProvider
-        title="My Posts"
-        description="Fullstack Job Searching Site by @RiP3rQ"
-      />
-      <div className="w-full flex items-center justify-center my-4">
-        <p className="text-3xl font-bold">MY POSTS</p>
-      </div>
-      <Separator className="w-full" />
-      {posts?.length > 0 ? (
-        posts?.map((post: any, index: number) => (
-          <div
-            key={index}
-            className="bg-transparent hover:bg-slate-300 hover:rounded-lg h-fit w-full cursor-pointer"
-            onClick={handlePostClick(post._id)}
-          >
-            <BlogPost key={index} post={post} />
-          </div>
-        ))
-      ) : (
-        <p className="text-center font-bold text-black mt-20 text-3xl">
-          No posts available!
-        </p>
-      )}
+      <ProtectedRoute>
+        <MetaDataProvider
+          title="My Posts"
+          description="Fullstack Job Searching Site by @RiP3rQ"
+        />
+        <div className="w-full flex items-center justify-center my-4">
+          <p className="text-3xl font-bold">MY POSTS</p>
+        </div>
+        <Separator className="w-full" />
+        {posts?.length > 0 ? (
+          posts?.map((post: any, index: number) => (
+            <div
+              key={index}
+              className="bg-transparent hover:bg-slate-300 hover:rounded-lg h-fit w-full cursor-pointer"
+              onClick={handlePostClick(post._id)}
+            >
+              <BlogPost key={index} post={post} />
+            </div>
+          ))
+        ) : (
+          <p className="text-center font-bold text-black mt-20 text-3xl">
+            No posts available!
+          </p>
+        )}
+      </ProtectedRoute>
     </div>
   );
 };

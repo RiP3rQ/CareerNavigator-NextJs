@@ -57,9 +57,9 @@ export default function Home() {
   );
 }
 
-// TODO: Add job offer to favorites
 // TODO: Add job offer to applied
 // TODO: Viewing applications for job offer
+// TODO: User public profile page for checking out when applying for job offer
 // TODO: Changing job offer status (joboffer/user) to viewed when cliecked by recruiter and send socket.io notification to user
 // TODO: Send notification to recruiter when user applies for job offer
 // TODO: Company page with all job offers listed and company info

@@ -23,7 +23,7 @@ const Navbar = (props: Props) => {
   };
 
   const handleBookmarkClick = () => {
-    console.log("Bookmark clicked");
+    router.push("/jobs/favouritedJobOffers");
   };
 
   const handleLogoClick = () => {
