@@ -74,7 +74,7 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
       <Popover>
         <PopoverTrigger asChild ref={dropDownTrigger}>
           {user.avatar ? (
-            <Avatar className="h-10 w-10 cursor-pointer">
+            <Avatar className="h-11 w-11 cursor-pointer border-2 border-[#37a39a]">
               <AvatarImage src={user.avatar.url} />
             </Avatar>
           ) : (
@@ -131,12 +131,6 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
             <div className="flex items-center justify-between w-full">
               <div>My Applications </div>
               <Briefcase className="h-4 w-4" />
-            </div>
-          </Button>
-          <Button variant="ghost" className="w-full" onClick={() => {}}>
-            <div className="flex items-center justify-between w-full">
-              <div>Alerts</div>
-              <Bell className="h-4 w-4" />
             </div>
           </Button>
           <Separator className="mb-1" />

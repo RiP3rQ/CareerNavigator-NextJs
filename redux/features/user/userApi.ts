@@ -98,6 +98,12 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getPublicProfile: builder.query({
+      query: ({ userId }) => ({
+        url: `get-public-profile/${userId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -113,4 +119,5 @@ export const {
   useDeleteSkillsMutation,
   useUpdateCVMutation,
   useDeleteCVMutation,
+  useGetPublicProfileQuery,
 } = userApi;

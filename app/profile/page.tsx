@@ -20,7 +20,7 @@ const ProfilePage = (props: Props) => {
   const [active, setActive] = useState(1);
 
   return (
-    <div className="w-full flex min-h-[90vh] px-20 ">
+    <div className="w-full flex space-x-1 min-h-[90vh] px-20 ">
       <ProtectedRoute>
         <MetaDataProvider
           title="Profile Page"

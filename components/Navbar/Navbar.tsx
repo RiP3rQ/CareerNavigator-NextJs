@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Bookmark } from "lucide-react";
+import { Bell, Bookmark } from "lucide-react";
 import Link from "next/link";
 import UserAvatar from "./UserAvatar";
 import { useSelector } from "react-redux";
@@ -66,7 +66,7 @@ const Navbar = (props: Props) => {
         </Link>
       </div>
       {/* Right side */}
-      <div className="h-full w-fit flex items-center justify-end space-x-4">
+      <div className="h-full w-fit flex items-center justify-end space-x-1">
         {path.startsWith("/blog") ? (
           <Button
             variant={"primary"}
@@ -84,6 +84,10 @@ const Navbar = (props: Props) => {
             Add Offer
           </Button>
         )}
+
+        <Separator orientation="vertical" />
+
+        <Bell className="h-10 w-10 text-white cursor-pointer" />
 
         <Separator orientation="vertical" />
         {/* user profile icon or login/register icon */}

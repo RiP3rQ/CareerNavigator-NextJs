@@ -8,7 +8,9 @@ import {
   ImageIcon,
   ListChecks,
   Lock,
+  PersonStanding,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   user: any;
@@ -23,6 +25,11 @@ const ProfileSidebar: React.FC<Props> = ({
   avatar,
   setActive,
 }) => {
+  const router = useRouter();
+  const handleClickPublicProfile = () => {
+    router.push(`/profile/${user._id}`);
+  };
+
   return (
     <div className="w-full bg-slate-800/60 rounded-xl">
       {/* 1 item */}
@@ -100,6 +107,16 @@ const ProfileSidebar: React.FC<Props> = ({
         <div className="px-3 flex items-center justify-between text-white">
           <p className="text-base">CV</p>
           <FileCode2 className="w-5 h-5" />
+        </div>
+      </div>
+      {/* See public profile */}
+      <div
+        className="w-full px-3 py-4 cursor-pointer"
+        onClick={handleClickPublicProfile}
+      >
+        <div className="px-3 flex items-center justify-between text-white">
+          <p className="text-base">Public profile</p>
+          <PersonStanding className="w-5 h-5" />
         </div>
       </div>
     </div>
