@@ -56,8 +56,6 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
     });
   };
 
-  console.log(user);
-
   return (
     <div className="relative">
       <Popover>

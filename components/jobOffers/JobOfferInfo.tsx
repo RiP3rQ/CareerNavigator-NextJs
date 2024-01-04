@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Building, Copy, MapPin, Share2 } from "lucide-react";
+import { BookOpen, Building, Copy, MapPin, Share2, Star } from "lucide-react";
 import React from "react";
 import {
   Drawer,
@@ -15,8 +15,10 @@ import {
 import { Button } from "../ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useAddToFavouritesMutation } from "@/redux/features/jobOffer/jobOfferApi";
 
 type Props = {
+  jobOfferId?: string;
   companyLogo: string;
   jobTitle: string;
   companyName: string;
@@ -29,6 +31,7 @@ type Props = {
 };
 
 const JobOfferInfo: React.FC<Props> = ({
+  jobOfferId,
   companyLogo,
   jobTitle,
   companyName,
@@ -39,6 +42,13 @@ const JobOfferInfo: React.FC<Props> = ({
   alreadyApplied,
   updatedAt,
 }) => {
+  const [isFavorited, setIsFavorited] = React.useState<boolean>(false);
+  // route to share job offer
+  const routeToShare = usePathname();
+  // redux action for adding job offer to favorites
+  const [addJobOfferToFavorites, { data, error, isSuccess }] =
+    useAddToFavouritesMutation();
+
   // check if updatedAt is less than 3 days
   const isLessThan3Days = (updatedAt: Date) => {
     const now = new Date();
@@ -51,8 +61,26 @@ const JobOfferInfo: React.FC<Props> = ({
     return false;
   };
 
-  // route to share job offer
-  const routeToShare = usePathname();
+  console.log(data);
+
+  // action based on redux response
+  React.useEffect(() => {
+    if (isSuccess) {
+      if (data.favourited) {
+        toast.success("Added to favorites", {
+          position: "top-center",
+        });
+      } else {
+        toast.success("Removed from favorites", {
+          position: "top-center",
+        });
+      }
+      setIsFavorited(data.favourited);
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [isSuccess, error]);
 
   // handle share button click
   const handleShareClick = () => {
@@ -72,6 +100,10 @@ const JobOfferInfo: React.FC<Props> = ({
         borderRadius: "1rem",
       },
     });
+  };
+
+  const handleFavoriteClick = () => {
+    addJobOfferToFavorites({ jobOfferId });
   };
 
   return (
@@ -110,7 +142,6 @@ const JobOfferInfo: React.FC<Props> = ({
               </Badge>
             ) : null}
             {/* SHARE BUTTON */}
-
             <Drawer>
               <DrawerTrigger>
                 <div className="bg-slate-400 p-2 rounded-full cursor-pointer">
@@ -147,6 +178,18 @@ const JobOfferInfo: React.FC<Props> = ({
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
+            {/* SHARE BUTTON END */}
+            {/* FAVORITE BUTTON */}
+            <Button
+              className="bg-slate-400 p-2 rounded-full cursor-pointer"
+              onClick={handleFavoriteClick}
+            >
+              <Star
+                className={`w-5 h-5 ${
+                  isFavorited ? "text-yellow-300" : "text-white"
+                }`}
+              />
+            </Button>
           </div>
           {/* absolute right bottom */}
           <div className="absolute bottom-4 right-4">

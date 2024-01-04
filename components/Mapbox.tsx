@@ -91,7 +91,7 @@ const Mapbox: React.FC<Props> = ({
           <CheckCheck
             size={30}
             className={`bg-blue-400 text-white rounded-full ${
-              indexOfHoveredJobOffer === index && "animate-bounce"
+              indexOfHoveredJobOffer === index && "animate-bounce z-50"
             }`}
           />
         </Marker>

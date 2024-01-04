@@ -63,6 +63,13 @@ export const jobOfferApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    addToFavourites: builder.mutation({
+      query: ({ jobOfferId }) => ({
+        url: `add-to-favorites-job-offers/${jobOfferId}`,
+        method: "PUT",
+        credentials: "include" as const,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -77,4 +84,5 @@ export const {
   useFilterJobOffersBySkillsMutation,
   useFilterJobOffersByTitleMutation,
   useApplyForJobOfferMutation,
+  useAddToFavouritesMutation,
 } = jobOfferApi;

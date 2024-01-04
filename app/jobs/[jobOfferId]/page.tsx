@@ -37,8 +37,6 @@ const SingleJobOfferPage = (props: Props) => {
     refetchOnMountOrArgChange: true,
   });
 
-  console.log(jobOffer);
-
   const alreadyApplied = jobOffer?.jobOfferApplicants?.some(
     (applicant) =>
       applicant.jobOfferApplicantId.toString() === UserData?.user?._id
@@ -93,6 +91,7 @@ const SingleJobOfferPage = (props: Props) => {
         {/* Left side - Job offer info */}
         <div className="w-full lg:w-[65%] h-full space-y-2">
           <JobOfferInfo
+            jobOfferId={jobOffer?._id.toString()}
             companyLogo={jobOffer?.company.logo.url}
             jobTitle={jobOffer?.title}
             companyName={jobOffer?.company.name}

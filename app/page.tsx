@@ -57,12 +57,15 @@ export default function Home() {
   );
 }
 
-// TODO: Repair user profile page
-// TODO: Display applications for job offer
-
 // TODO: Add job offer to favorites
 // TODO: Add job offer to applied
+// TODO: Viewing applications for job offer
+// TODO: Changing job offer status (joboffer/user) to viewed when cliecked by recruiter and send socket.io notification to user
+// TODO: Send notification to recruiter when user applies for job offer
+// TODO: Company page with all job offers listed and company info
+// TODO: Better description editor with rich text
 
+// TODO: Best fit for job offers based on skills of a user and tags of a job offer
 // TODO: Socket.io for alerts
 // TODO: Social Auth buttons + functionality (Google, LinkedIn)
 
