@@ -15,12 +15,6 @@ export default function Home() {
     useGetAllJobOffersMutation();
 
   useEffect(() => {
-    getAllJobOffers({}).then((res: any) => {
-      setJobOffers(res.data.jobOffers);
-    });
-  }, []);
-
-  useEffect(() => {
     if (isSuccess) {
       reset();
     }
@@ -57,16 +51,17 @@ export default function Home() {
   );
 }
 
-// TODO: Add job offer to applied
-// TODO: Viewing applications for job offer
-// TODO: User public profile page for checking out when applying for job offer
+// TODO: Page for viewing applications to job offers
 // TODO: Changing job offer status (joboffer/user) to viewed when cliecked by recruiter and send socket.io notification to user
-// TODO: Send notification to recruiter when user applies for job offer
+// TODO: User public profile page for checking out when applying for job offer
+
 // TODO: Company page with all job offers listed and company info
 // TODO: Better description editor with rich text
 
+// TODO: CASCADE DELETE FOR ALL MODELS (when deleting user, delete all his posts, comments, etc.) (when deleting job offer, delete all applications, etc.)
 // TODO: Best fit for job offers based on skills of a user and tags of a job offer
 // TODO: Socket.io for alerts
+// TODO: Send notification to recruiter when user applies for job offer
 // TODO: Social Auth buttons + functionality (Google, LinkedIn)
 
 // TODO: Upgrade blog features

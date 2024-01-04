@@ -9,7 +9,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { AppWindow, Bell, Hammer, LogOutIcon, User2Icon } from "lucide-react";
+import {
+  AppWindow,
+  Bell,
+  Briefcase,
+  Hammer,
+  LogOutIcon,
+  User2Icon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLogOutQuery } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
@@ -42,6 +49,12 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
 
   const handleOpenMyJobOffers = () => {
     router.push("/jobs/myJobOffers");
+    // close the dropdown
+    dropDownTrigger.current?.click();
+  };
+
+  const handleOpenMyApplications = () => {
+    router.push("/jobs/myApplications");
     // close the dropdown
     dropDownTrigger.current?.click();
   };
@@ -108,6 +121,16 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
             <div className="flex items-center justify-between w-full">
               <div>My job offers</div>
               <Hammer className="h-4 w-4" />
+            </div>
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-full"
+            onClick={handleOpenMyApplications}
+          >
+            <div className="flex items-center justify-between w-full">
+              <div>My Applications </div>
+              <Briefcase className="h-4 w-4" />
             </div>
           </Button>
           <Button variant="ghost" className="w-full" onClick={() => {}}>
