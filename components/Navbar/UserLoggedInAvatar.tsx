@@ -56,6 +56,8 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
     });
   };
 
+  console.log(user);
+
   return (
     <div className="relative">
       <Popover>
@@ -66,7 +68,7 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
             </Avatar>
           ) : (
             <h1 className="text-white text-xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl">
-              {user.email.split("@")[0]}
+              {user?.email?.split("@")[0]}
             </h1>
           )}
         </PopoverTrigger>

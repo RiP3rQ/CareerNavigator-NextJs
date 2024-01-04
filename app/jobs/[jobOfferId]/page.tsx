@@ -37,6 +37,8 @@ const SingleJobOfferPage = (props: Props) => {
     refetchOnMountOrArgChange: true,
   });
 
+  console.log(jobOffer);
+
   const alreadyApplied = jobOffer?.jobOfferApplicants?.some(
     (applicant) =>
       applicant.jobOfferApplicantId.toString() === UserData?.user?._id
@@ -56,7 +58,7 @@ const SingleJobOfferPage = (props: Props) => {
       toast.success("Applied for job offer", {
         position: "top-center",
       });
-      router.refresh();
+      router.push(`/jobs/${jobOfferId}`);
     }
     if (errorApply) {
       if ("data" in errorApply) {
