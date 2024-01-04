@@ -6,49 +6,63 @@ import JobOfferCompanyForm from "@/components/jobOffers/addOrEditJobOffer/JobOff
 import JobOfferDescriptionForm from "@/components/jobOffers/addOrEditJobOffer/JobOfferDescriptionForm";
 import JobOfferRequirementsForm from "@/components/jobOffers/addOrEditJobOffer/JobOfferRequirementsForm";
 import JobOfferPreview from "@/components/jobOffers/addOrEditJobOffer/JobOfferPreview";
-import MetaDataProvider from "../../providers/MetaDataProvider";
+import MetaDataProvider from "@/app/providers/MetaDataProvider";
 import ProtectedRoute from "@/hooks/useProtectedRoute";
+import { useGetSingleJobOfferQuery } from "@/redux/features/jobOffer/jobOfferApi";
+import { useParams } from "next/navigation";
 
 type Props = {};
 
-const AddJobOfferPage: React.FC<Props> = () => {
+const EditJobOfferPage = (props: Props) => {
+  const jobOfferId = useParams().jobOfferId;
+  // redux to get edited job offer data
+  const { data } = useGetSingleJobOfferQuery(
+    { jobOfferId },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
   const [active, setActive] = useState(0);
   const [jobOfferBasicInfo, setJobOfferBasicInfo] = useState({
-    title: "",
-    salaryRange: "",
-    remote: "" as "Remote" | "Hybrid" | "Office",
-    contractType: "" as
-      | "B2B"
-      | "UoP"
-      | "UZ"
-      | "B2B/UoP"
-      | "B2B/UZ"
-      | "UoP/UZ"
-      | "B2B/UoP/UZ",
+    title: data?.jobOffer?.title || "",
+    salaryRange: data?.jobOffer?.salaryRange || "",
+    remote: data?.jobOffer?.remote || ("" as "Remote" | "Hybrid" | "Office"),
+    contractType:
+      data?.jobOffer?.contractType ||
+      ("" as
+        | "B2B"
+        | "UoP"
+        | "UZ"
+        | "B2B/UoP"
+        | "B2B/UZ"
+        | "UoP/UZ"
+        | "B2B/UoP/UZ"),
   });
   const [jobOfferCompanyInfo, setJobOfferCompanyInfo] = useState({
-    name: "",
-    description: "",
-    website: "",
+    name: data?.jobOffer?.company?.name || "",
+    description: data?.jobOffer?.company?.description || "",
+    website: data?.jobOffer?.company?.website || "",
     logo: {
-      url: "",
+      url: data?.jobOffer?.company?.logo?.url || "",
     },
-    location: "",
+    location: data?.jobOffer?.company?.location || "",
     geoLocation: {
-      latitude: 1.0 as number,
-      longitude: 1.0 as number,
+      latitude: data?.jobOffer?.company?.geoLocation?.latitude || 1.0,
+      longitude: data?.jobOffer?.company?.geoLocation?.longitude || 1.0,
     },
   });
   const [jobOfferDescription, setJobOfferDescription] = useState({
-    description: "",
+    description: data?.jobOffer?.description || "",
   });
   const [jobOfferRequirements, setJobOfferRequirements] = useState({
-    requirements: Array<string>(),
+    requirements: data?.jobOffer?.jobOfferSkills || Array<string>(),
   });
   const [jobOfferData, setJobOfferData] = useState({});
 
   useEffect(() => {
     setJobOfferData({
+      jobOfferId: data?.jobOffer?._id,
       ...jobOfferBasicInfo,
       company: jobOfferCompanyInfo,
       ...jobOfferDescription,
@@ -111,4 +125,4 @@ const AddJobOfferPage: React.FC<Props> = () => {
   );
 };
 
-export default AddJobOfferPage;
+export default EditJobOfferPage;

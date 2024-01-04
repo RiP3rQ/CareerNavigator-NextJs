@@ -114,7 +114,7 @@ const JobOfferInfo: React.FC<Props> = ({
             <Drawer>
               <DrawerTrigger>
                 <div className="bg-slate-400 p-2 rounded-full cursor-pointer">
-                  <Share2 className="w-5 h-5" onClick={handleShareClick} />
+                  <Share2 className="w-5 h-5" />
                 </div>
               </DrawerTrigger>
               <DrawerContent>

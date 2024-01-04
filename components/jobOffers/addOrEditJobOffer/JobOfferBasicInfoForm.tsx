@@ -95,6 +95,8 @@ const JobOfferBasicInfoForm: React.FC<Props> = ({
     },
   });
 
+  console.log(jobOfferBasicInfo);
+
   // Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     toast.success("Basic info saved");

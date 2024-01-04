@@ -57,6 +57,7 @@ export default function Home() {
   );
 }
 
+// TODO: Finish buttons
 // TODO: Edit job offer functionality
 // TODO: Delete job offer functionality
 
@@ -66,14 +67,13 @@ export default function Home() {
 // TODO: Add job offer to favorites
 // TODO: Add job offer to applied
 
-// TODO: Suspence skeleton functionality
-// TODO: Responsive design
-
 // TODO: Pro modal for payments
 // TODO: Socket.io for alerts
-// TODO: Chat functionality
+
+// TODO: Social Auth buttons + functionality (Google, LinkedIn)
 
 // TODO: Upgrade blog features
-
+// TODO: Chat functionality
 // TODO: hamburger menu for mobile
-// TODO: Social Auth buttons + functionality (Google, LinkedIn)
+// TODO: Suspence skeleton functionality
+// TODO: Responsive design

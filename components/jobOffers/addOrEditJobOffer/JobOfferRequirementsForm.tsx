@@ -90,8 +90,6 @@ const JobOfferRequirementsForm: React.FC<Props> = ({
     setActive(active + 1);
   };
 
-  console.log(skills);
-
   return (
     <div className="w-[80%] mx-auto mt-10 bg-purple-700 px-4">
       {skills.length > 0 && (

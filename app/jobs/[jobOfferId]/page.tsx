@@ -5,7 +5,7 @@ import {
   useApplyForJobOfferMutation,
   useGetSingleJobOfferQuery,
 } from "@/redux/features/jobOffer/jobOfferApi";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import JobOfferInfo from "@/components/jobOffers/JobOfferInfo";
 import { JobOffer } from "@/types/jobOffer";
@@ -19,6 +19,7 @@ import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 type Props = {};
 
 const SingleJobOfferPage = (props: Props) => {
+  const router = useRouter();
   const [jobOffer, setJobOffer] = useState<JobOffer>();
   const jobOfferId = useParams().jobOfferId;
   //redux get single job offer
@@ -55,6 +56,7 @@ const SingleJobOfferPage = (props: Props) => {
       toast.success("Applied for job offer", {
         position: "top-center",
       });
+      router.refresh();
     }
     if (errorApply) {
       if ("data" in errorApply) {
@@ -102,14 +104,24 @@ const SingleJobOfferPage = (props: Props) => {
           <TechStackInfo tags={jobOffer.jobOfferSkills} />
           <JobDescription description={jobOffer.description} />
           <div className="flex lg:hidden">
-            <ApplyButton onClick={handleApplyClick} />
+            <ApplyButton
+              jobOfferRecruiterId={jobOffer?.recruiter.recruiterId.toString()}
+              userId={UserData?.user?._id}
+              onClick={handleApplyClick}
+              jobOfferId={jobOffer?._id.toString()}
+            />
           </div>
         </div>
         <div className="hidden lg:flex lg:flex-col lg:space-y-5 w-[35%] h-full ">
           <div className="w-full h-96">
             <Mapbox location={jobOffer?.company.geoLocation} disabled={true} />
           </div>
-          <ApplyButton onClick={handleApplyClick} />
+          <ApplyButton
+            jobOfferRecruiterId={jobOffer?.recruiter.recruiterId.toString()}
+            userId={UserData?.user?._id}
+            onClick={handleApplyClick}
+            jobOfferId={jobOffer?._id.toString()}
+          />
         </div>
       </div>
     </div>

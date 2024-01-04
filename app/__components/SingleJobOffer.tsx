@@ -52,11 +52,11 @@ const SingleJobOffer: React.FC<Props> = ({
         <div className=" flex items-center justify-between w-full">
           <p className="font-bold">{jobOffer.title}</p>
           <div className="flex space-x-3">
-            <p className="text-xs">
+            <div className="text-xs">
               {isLessThan3Days(jobOffer.updatedAt) && (
                 <Badge className="bg-purple-400 text-xs">New</Badge>
               )}
-            </p>
+            </div>
             <p className="font-bold">{jobOffer.salaryRange}</p>
           </div>
         </div>
