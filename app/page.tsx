@@ -51,8 +51,6 @@ export default function Home() {
   );
 }
 
-// TODO: User public profile page for checking out when applying for job offer
-
 // TODO: Page for viewing applications to job offers
 // TODO: Changing job offer status (joboffer/user) to viewed when cliecked by recruiter and send socket.io notification to user
 

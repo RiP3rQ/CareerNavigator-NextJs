@@ -45,7 +45,7 @@ const formSchema = z.object({
     .union([z.string().length(0), z.string().min(2).max(50)])
     .optional()
     .transform((e) => (e === "" ? undefined : e)),
-  linkedin: z
+  linkedIn: z
     .union([z.string().length(0), z.string().min(2).max(50)])
     .optional()
     .transform((e) => (e === "" ? undefined : e)),
@@ -82,7 +82,7 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
       email: user.email || "",
       bio: user.bio || "",
       website: user.social?.website || "",
-      linkedin: user.social?.linkedin || "",
+      linkedIn: user.social?.linkedIn || "",
       github: user.social?.github || "",
     },
   });
@@ -133,7 +133,7 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
       email: values.email,
       bio: values.bio,
       website: values.website,
-      linkedin: values.linkedin,
+      linkedIn: values.linkedIn,
       github: values.github,
     };
 
@@ -269,7 +269,7 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
                 />
                 <FormField
                   control={form.control}
-                  name="linkedin"
+                  name="linkedIn"
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center justify-center">
                       <FormLabel className="text-right pr-2">
