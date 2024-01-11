@@ -141,10 +141,6 @@ const Navbar = (props: Props) => {
         )}
 
         <Separator orientation="vertical" />
-
-        <Bell className="h-10 w-10 text-white cursor-pointer" />
-
-        <Separator orientation="vertical" />
         {/* user profile icon or login/register icon */}
         {user ? (
           <>
@@ -156,7 +152,7 @@ const Navbar = (props: Props) => {
 
         <Separator orientation="vertical" />
         <Bookmark
-          className="h-10 w-10 text-white cursor-pointer"
+          className="h-10 w-10 text-white hover:text-[#9f59ce] cursor-pointer"
           onClick={handleBookmarkClick}
         />
       </div>

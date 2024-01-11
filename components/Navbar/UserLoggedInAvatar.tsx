@@ -61,7 +61,7 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user, handleLogOut }) => {
               height={44}
               src={user.avatar.url}
               alt={user.avatar.public_id}
-              className="w-11 h-11 cursor-pointer border-2 rounded-full border-[#37a39a]"
+              className="w-11 h-11 cursor-pointer border-2 rounded-full border-[#37a39a] hover:border-[#9f59ce]"
             />
           ) : (
             <h1 className="text-white text-xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl">

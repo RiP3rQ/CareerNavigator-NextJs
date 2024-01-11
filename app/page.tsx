@@ -51,15 +51,6 @@ export default function Home() {
   );
 }
 
-// TODO: Better description editor with rich text
-
-// TODO: CASCADE DELETE FOR ALL MODELS (when deleting user, delete all his posts, comments, etc.) (when deleting job offer, delete all applications, etc.)
-
-// TODO: Socket.io for alerts
-// TODO: Send notification to recruiter when user applies for job offer
-
-// TODO: Upgrade blog features
-// TODO: Chat functionality
 // TODO: hamburger menu for mobile
 // TODO: Suspence skeleton functionality
 // TODO: Responsive design
