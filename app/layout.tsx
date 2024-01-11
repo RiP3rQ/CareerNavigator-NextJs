@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import { ModalProvider } from "./providers/ModalsProvider";
 import { Toaster } from "sonner";
 import { ReduxProvider } from "./providers/ReduxProvider";
+import { SessionProvider } from "next-auth/react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,12 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <ReduxProvider>
-          <Toaster />
-          <ModalProvider />
-          <Navbar />
-          {children}
-        </ReduxProvider>
+        <SessionProvider>
+          <ReduxProvider>
+            <Toaster />
+            <ModalProvider />
+            <Navbar />
+            {children}
+          </ReduxProvider>
+        </SessionProvider>
       </body>
     </html>
   );

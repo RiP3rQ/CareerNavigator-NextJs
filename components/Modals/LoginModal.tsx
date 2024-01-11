@@ -28,6 +28,8 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
 
 const formSchema = z.object({
   email: z
@@ -56,7 +58,7 @@ const LoginModal = (props: Props) => {
   };
 
   // redux
-  const [login, { isSuccess, data, isError, error }] = useLoginMutation();
+  const [login, { isSuccess, isError, error }] = useLoginMutation();
 
   // Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -151,6 +153,22 @@ const LoginModal = (props: Props) => {
             </DialogFooter>
           </form>
         </Form>
+        <Separator />
+        <div>
+          <h5 className="text-center text-base text-gray-500">
+            Or login with{" "}
+          </h5>
+          <div className="flex items-center justify-center">
+            <Image
+              src={"/googleIcon.png"}
+              width={50}
+              height={50}
+              alt="google-icon"
+              className="cursor-pointer "
+              onClick={() => signIn("Google")}
+            />
+          </div>
+        </div>
         <Separator />
         <div className="">
           <p className="text-base text-gray-400">

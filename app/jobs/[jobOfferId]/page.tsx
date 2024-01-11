@@ -21,7 +21,7 @@ type Props = {};
 const SingleJobOfferPage = (props: Props) => {
   const router = useRouter();
   const [jobOffer, setJobOffer] = useState<JobOffer>();
-  const jobOfferId = useParams().jobOfferId;
+  const jobOfferId = useParams()?.jobOfferId;
   //redux get single job offer
   const { data, isSuccess, error, isLoading } = useGetSingleJobOfferQuery(
     { jobOfferId },

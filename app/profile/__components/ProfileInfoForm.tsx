@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 const formSchema = z.object({
   firstName: z
@@ -146,7 +147,8 @@ const ProfileInfoForm: React.FC<Props> = ({ user, avatar }) => {
       <div className="w-full h-fit bg-slate-800/60 rounded-xl px-6 flex justify-center items-center flex-col">
         <div className="w-full h-44 flex justify-center items-center">
           <div className="relative w-32 h-32">
-            <img
+            <Image
+              fill
               src={
                 user.avatar.url || avatar
                   ? user.avatar.url || avatar

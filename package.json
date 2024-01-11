@@ -27,6 +27,7 @@
     "lucide-react": "^0.303.0",
     "mapbox-gl": "^3.0.1",
     "next": "14.0.4",
+    "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-day-picker": "^8.10.0",

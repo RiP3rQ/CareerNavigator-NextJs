@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,29 +10,22 @@ import {
 import { Separator } from "@/components/ui/separator";
 import {
   AppWindow,
-  Bell,
   Briefcase,
   Hammer,
   LogOutIcon,
   User2Icon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useLogOutQuery } from "@/redux/features/auth/authApi";
-import { toast } from "sonner";
+import Image from "next/image";
 
 type Props = {
   user: any;
+  handleLogOut: () => void;
 };
 
-const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
+const UserLoggedInAvatar: React.FC<Props> = ({ user, handleLogOut }) => {
   const dropDownTrigger = useRef<HTMLButtonElement>(null);
   const router = useRouter();
-
-  // logout
-  const [logout, setLogout] = useState(false);
-  const {} = useLogOutQuery(undefined, {
-    skip: !logout ? true : false,
-  });
 
   const handleOpenMyProfile = () => {
     router.push("/profile");
@@ -59,24 +51,18 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
     dropDownTrigger.current?.click();
   };
 
-  const handleLogout = async () => {
-    setLogout(true);
-    // close the dropdown
-    dropDownTrigger.current?.click();
-    // send toast
-    toast.success("Logout successfully", {
-      position: "top-center",
-    });
-  };
-
   return (
     <div className="relative">
       <Popover>
         <PopoverTrigger asChild ref={dropDownTrigger}>
-          {user.avatar ? (
-            <Avatar className="h-11 w-11 cursor-pointer border-2 border-[#37a39a]">
-              <AvatarImage src={user.avatar.url} />
-            </Avatar>
+          {user.avatar.url ? (
+            <Image
+              width={44}
+              height={44}
+              src={user.avatar.url}
+              alt={user.avatar.public_id}
+              className="w-11 h-11 cursor-pointer border-2 rounded-full border-[#37a39a]"
+            />
           ) : (
             <h1 className="text-white text-xl cursor-pointer p-2 hover:bg-purple-700 hover:rounded-xl">
               {user?.email?.split("@")[0]}
@@ -134,7 +120,15 @@ const UserLoggedInAvatar: React.FC<Props> = ({ user }) => {
             </div>
           </Button>
           <Separator className="mb-1" />
-          <Button variant="ghost" className="w-full" onClick={handleLogout}>
+          <Button
+            variant="ghost"
+            className="w-full"
+            onClick={() => {
+              // close the dropdown
+              dropDownTrigger.current?.click();
+              handleLogOut();
+            }}
+          >
             <div className="flex items-center justify-between w-full">
               <div>Logout</div>
               <LogOutIcon className="h-4 w-4" />

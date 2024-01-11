@@ -51,7 +51,6 @@ export default function Home() {
   );
 }
 
-// TODO: Social Auth buttons + functionality (Google, LinkedIn)
 // TODO: Better description editor with rich text
 
 // TODO: CASCADE DELETE FOR ALL MODELS (when deleting user, delete all his posts, comments, etc.) (when deleting job offer, delete all applications, etc.)

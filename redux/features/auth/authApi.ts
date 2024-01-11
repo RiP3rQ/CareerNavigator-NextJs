@@ -51,7 +51,7 @@ export const authApi = apiSlice.injectEndpoints({
           const result = await queryFulfilled;
           dispatch(
             userLoggedIn({
-              token: result.data.accessToken,
+              accessToken: result.data.accessToken,
               user: result.data.user,
             })
           );
@@ -72,7 +72,7 @@ export const authApi = apiSlice.injectEndpoints({
           const result = await queryFulfilled;
           dispatch(
             userLoggedIn({
-              token: result.data.accessToken,
+              accessToken: result.data.accessToken,
               user: result.data.user,
             })
           );
@@ -102,5 +102,6 @@ export const {
   useRegisterMutation,
   useActivationMutation,
   useLoginMutation,
+  useSocialAuthMutation,
   useLogOutQuery,
 } = authApi;

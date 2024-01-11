@@ -38,12 +38,10 @@ const ProfileSidebar: React.FC<Props> = ({
     ${active === 1 ? "bg-purple-700/75 rounded-xl" : "bg-transparent"}`}
         onClick={() => setActive(1)}
       >
-        <Image
+        <img
           src={
             user.avatar || avatar ? user.avatar.url || avatar : avatarDefault
           }
-          width={20}
-          height={20}
           alt="avatar"
           className="w-5 h-5 lg:w-9 lg:h-9 rounded-full cursor-pointer"
         />
@@ -56,7 +54,7 @@ const ProfileSidebar: React.FC<Props> = ({
       </div>
       {/* 2 item */}
       <div
-        className={`w-full px-3 py-4 cursor-pointer 
+        className={`w-full px-3 py-4 cursor-pointer min-w-0
     ${active === 2 ? "bg-purple-700/75 rounded-xl" : "bg-transparent"}`}
         onClick={() => setActive(2)}
       >
