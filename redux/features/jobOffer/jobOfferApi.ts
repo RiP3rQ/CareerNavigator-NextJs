@@ -84,6 +84,21 @@ export const jobOfferApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getAllUsersAppliedToJobOffer: builder.query({
+      query: ({ jobOfferId }) => ({
+        url: `get-all-applicants-of-a-job-offer/${jobOfferId}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    recruiterClickedOnApplicant: builder.mutation({
+      query: ({ jobOfferId, applicantId }) => ({
+        url: `recruiter-click-on-applicant/${jobOfferId}`,
+        method: "PUT",
+        body: { applicantId },
+        credentials: "include" as const,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -101,4 +116,6 @@ export const {
   useAddToFavouritesMutation,
   useGetAllFavouritedJobOffersByUserIdMutation,
   useGetAllAppliedToJobOffersByUserIdMutation,
+  useGetAllUsersAppliedToJobOfferQuery,
+  useRecruiterClickedOnApplicantMutation,
 } = jobOfferApi;

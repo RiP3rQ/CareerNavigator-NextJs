@@ -54,14 +54,14 @@ export default function Home() {
 // TODO: Page for viewing applications to job offers
 // TODO: Changing job offer status (joboffer/user) to viewed when cliecked by recruiter and send socket.io notification to user
 
-// TODO: Company page with all job offers listed and company info
+// TODO: Social Auth buttons + functionality (Google, LinkedIn)
+// TODO: Tooltip for caompany description while hovering over company name or logo
 // TODO: Better description editor with rich text
 
 // TODO: CASCADE DELETE FOR ALL MODELS (when deleting user, delete all his posts, comments, etc.) (when deleting job offer, delete all applications, etc.)
-// TODO: Best fit for job offers based on skills of a user and tags of a job offer
+
 // TODO: Socket.io for alerts
 // TODO: Send notification to recruiter when user applies for job offer
-// TODO: Social Auth buttons + functionality (Google, LinkedIn)
 
 // TODO: Upgrade blog features
 // TODO: Chat functionality

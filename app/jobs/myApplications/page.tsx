@@ -32,8 +32,6 @@ const MyApplicationsPage = (props: Props) => {
     router.push(`/jobs/${jobOfferId}`);
   };
 
-  console.log(jobOffers);
-
   return (
     <div className="max-w-7xl mx-4 lg:mx-auto">
       <ProtectedRoute>
