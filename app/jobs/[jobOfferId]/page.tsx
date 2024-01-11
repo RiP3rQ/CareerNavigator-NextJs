@@ -94,6 +94,7 @@ const SingleJobOfferPage = (props: Props) => {
             jobOfferId={jobOffer?._id.toString()}
             companyLogo={jobOffer?.company.logo.url}
             jobTitle={jobOffer?.title}
+            companyDescription={jobOffer?.company.description}
             companyName={jobOffer?.company.name}
             companyLocation={jobOffer?.company.location}
             salaryRange={jobOffer?.salaryRange}

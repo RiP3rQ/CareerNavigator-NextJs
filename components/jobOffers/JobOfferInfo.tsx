@@ -12,6 +12,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "../ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -22,6 +28,7 @@ type Props = {
   jobOfferId?: string;
   companyLogo: string;
   jobTitle: string;
+  companyDescription: string;
   companyName: string;
   companyLocation: string;
   salaryRange: string;
@@ -35,6 +42,7 @@ const JobOfferInfo: React.FC<Props> = ({
   jobOfferId,
   companyLogo,
   jobTitle,
+  companyDescription,
   companyName,
   companyLocation,
   salaryRange,
@@ -125,11 +133,20 @@ const JobOfferInfo: React.FC<Props> = ({
       <div className="bg-purple-400 rounded-t-2xl w-full flex h-40">
         {/* Company Image */}
         <div className="w-[25%] h-full flex items-center justify-center">
-          <img
-            src={companyLogo}
-            alt="company-logo"
-            className="object-contain rounded-full h-40 w-40"
-          />
+          <TooltipProvider delayDuration={300} skipDelayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger>
+                <img
+                  src={companyLogo}
+                  alt="company-logo"
+                  className="object-contain rounded-full h-40 w-40"
+                />
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p>{companyDescription}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
         <div className="w-[75%] p-4 flex flex-col justify-center space-y-3 text-white relative">
           <Label className=" font-bold text-3xl">{jobTitle}</Label>
